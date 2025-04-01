@@ -1,0 +1,786 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.ico">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jednersaous">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="A new learner&#39;s writeup">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hackergame2023-Writeup">
+<meta property="og:url" content="http://example.com/2023/11/03/Hackergame2023-Writeup/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="A new learner&#39;s writeup">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/writeup.png">
+<meta property="article:published_time" content="2023-11-03T02:00:00.000Z">
+<meta property="article:modified_time" content="2025-04-01T07:17:18.634Z">
+<meta property="article:author" content="Jednersaous">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="writeup">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/writeup.png">
+  
+  
+  
+  <title>Hackergame2023-Writeup - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Hello, it&#39;s jednersaous</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Hackergame2023-Writeup"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-11-03 10:00" pubdate>
+          2023年11月3日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          30 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Hackergame2023-Writeup</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="Hackergame2023-Writeup"><a href="#Hackergame2023-Writeup" class="headerlink" title="Hackergame2023-Writeup"></a>Hackergame2023-Writeup</h2><p>——by Jednersaous</p>
+<p>mark:<strong>3350</strong>, rank:<strong>185&#x2F;2386</strong>, group rank:<strong>3&#x2F;63</strong></p>
+<p>AI:<strong>300</strong>, binary:<strong>0</strong>, general:<strong>2050</strong>, math:<strong>200</strong>, web:<strong>800</strong></p>
+<p>——————————————————————————————————————————————————</p>
+<h3 id="1-Hackergame-启动"><a href="#1-Hackergame-启动" class="headerlink" title="1.Hackergame 启动"></a>1.Hackergame 启动</h3><p>认真虔诚地喊出“hackergame，启动”（不是</p>
+<p>试了一次之后发现匹配度根本到不了99.9%，但是发现URL这个东东呢，后面有了个similarity参数</p>
+<p>数字好像正好是匹配度，那就直接修改该参数超过99.9%即可</p>
+<h3 id="2-猫咪小测"><a href="#2-猫咪小测" class="headerlink" title="2.猫咪小测"></a>2.猫咪小测</h3><p>第一题在科大西图找一本书，给了提示非负整数，故穷举，答案是12</p>
+<p>第二题直接Google「可观测宇宙中的鸡的密度上限」，知乎等各大中文网站都有答案</p>
+<p>第三题我问的ChatGPT3.5，可喜可贺，给出了正确答案</p>
+<p>第四题还是Google”Mypy type check infinite loop”，各大论文网站均有引用，容易找到原文及今年的发表大会</p>
+<h3 id="3-更深更暗"><a href="#3-更深更暗" class="headerlink" title="3.更深更暗"></a>3.更深更暗</h3><p>F12查看源码，打开发现一直有新的&lt;pre&gt;元素“涌”进web页面，我的flag！！！</p>
+<p>打断点暂停，或者抓包，或者Network，flag就藏在div-main的最下面</p>
+<h3 id="4-旅行照片3-0"><a href="#4-旅行照片3-0" class="headerlink" title="4.旅行照片3.0"></a>4.旅行照片3.0</h3><p>此题我已写了题解，太爽啦，直接CV</p>
+<p>1.通过文本可知粗略的时间是今年2023年暑假大概是6月-9月（其实已经可以开爆了</p>
+<p>查了下中科大学生放假时间</p>
+<p>本科7.29-9.2，惨惨惨，那估计就是8月份的某一天了</p>
+<p>飞机照片能搜出来南航的标识</p>
+<p>通过后面拉面店里的日文可以看出目的地是日本，文本中有提到是东京</p>
+<p>但是出发地不太知道，有点幽默了，难道是合肥吗？</p>
+<p>如果出发地不知道的话就有点难找了</p>
+<p>结果爆出来是2023-08-10</p>
+<p>2.奖牌是诺贝尔奖奖牌，获得者是KOSHIBA，也就是小柴昌俊，东京大学毕业，所以学长大概率在东大读书</p>
+<p>而koshiba获得的的是诺贝尔物理学奖，所以只要找到东京大学诺贝尔物理学奖最年轻的获得者就可以</p>
+<p>发现符合这个条件的人只有梶田隆章了，从wiki百科里知道当时他工作于东京大学宇宙射线研究所，缩写ICRR</p>
+<p>3.识图找到了这家拉面店和这个喷泉</p>
+<p>这个喷泉确实挺有标志性，叫上野公园大喷泉，但是附近有两个博物馆</p>
+<p>一个博物馆在喷泉旁边，叫国立科学博物馆；另一个在马路对面，叫东京国立博物馆，到底是哪一个呢</p>
+<p>查了一会，好像符合时间和地点条件的活动就只有当天的<strong>梅酒祭</strong>了</p>
+<p>有一说一，确实挺难找的，但凭我的实力还是直接给我干到官网了</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://umeshu-matsuri.jp/tokyo_staff/">https://umeshu-matsuri.jp/tokyo_staff/</a></p>
+<p><a target="_blank" rel="noopener" href="https://ws.formzu.net/dist/S495584522/">https://ws.formzu.net/dist/S495584522/</a></p>
+</blockquote>
+<p>答案直接在页面上显示出来了</p>
+<p>S495584522</p>
+<p>4.只要搜东京的国立科学博物馆门票价格就行，普通人好像是1000yen，我看大学生减免50%还以为是500yen呢，结果直接0yen，只能说不愧是润霓虹爷啊</p>
+<p>5.文本说是上野站，直接google map，开找</p>
+<p>但是这上野站离河还很远啊，离这Rainbow Bridge就更远了，我是有点没搞懂</p>
+<p>哦原来是在上野站上车是吧，日，审题不仔细</p>
+<p>tmdtmdtmdtmdtmd</p>
+<p>原来是先搞学术是吧，在东大里先搞点学术再集合</p>
+<p>我tm还以为是在哪里集合坐船</p>
+<p>我日似你的木，气死了</p>
+<p>ans：安田讲堂</p>
+<p>6.上野站好像是喜欢panda的</p>
+<p>图在下面那个网站里</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://plaza.rakuten.co.jp/ayumilife/diary/202308030001/">https://plaza.rakuten.co.jp/ayumilife/diary/202308030001/</a></p>
+</blockquote>
+<p>马里奥在渋谷，先试试在渋谷站找找吧</p>
+<p>马里奥是Nintendo TOKYO オフィシャルストア，有个林克的照片重合度100%</p>
+<p>涩谷有忠犬八公，忠犬八公是秋田犬（?</p>
+<p>好像还真是，新宿有猫，涩谷是忠犬八公，Youtube最近时间是2023-06</p>
+<p>开蒙了</p>
+<p>有点脏话，但是不想删了，素质就是这么低 ^_^</p>
+<h3 id="5-赛博井字棋"><a href="#5-赛博井字棋" class="headerlink" title="5.赛博井字棋"></a>5.赛博井字棋</h3><p>可以发现，正常下是100%下不赢的，那就只能抓包看看了</p>
+<p>发现是POST请求，发送的是自己下的棋的坐标</p>
+<p>那我能不能下在AI已经下过的棋上呢，一试发现可以</p>
+<p>所以可以先手动下两个，然后最后一个抓包之后修改坐标成被AI堵住的那个就行了</p>
+<p>###6.奶奶的睡前 flag 故事</p>
+<p>题目给的暗示真的挺多的，没想到这题跟PNG什么正常的图片隐写啊没什么关系，挺好的，毕竟我是misc新人</p>
+<p>第一点<strong>谷歌的亲儿子</strong>指的是google自己研发的手机Pixel系列</p>
+<p>好，那懂了啊，直接搜Pixel截图漏洞</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.ithome.com/0/681/025.htm">https://www.ithome.com/0/681/025.htm</a></p>
+<p><a target="_blank" rel="noopener" href="https://acropalypse.app/">https://acropalypse.app/</a></p>
+</blockquote>
+<p>aCropalypse截图漏洞就爆出来了，直接网页在线处理，flag轻而易举</p>
+<h3 id="7-组委会模拟器"><a href="#7-组委会模拟器" class="headerlink" title="7.组委会模拟器"></a>7.组委会模拟器</h3><p>这题还花了我不少时间的，都有200解了我才做出来，我以为大家都用的神必方法秒了，我还在傻傻写脚本呢</p>
+<p>python-http请求脚本熟练度+1</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> time<br><br>url=<span class="hljs-string">&quot;http://202.38.93.111:10021/&quot;</span><br>header = &#123;<span class="hljs-string">&#x27;Content-Type&#x27;</span>: <span class="hljs-string">&#x27;application/json&#x27;</span>&#125;<br><span class="hljs-comment"># parame=&#123;</span><br><span class="hljs-comment">#     &#x27;token&#x27;:&quot;386:MEUCIAau2PaZf7UfJZPo7B2nkqGyyXuBoqNQM9QRe/c1S5qwAiEAt+5eRVU2N+kNE/mpF4cghZUxaUe/4Y/olgc0We5XQSk=&quot;</span><br><span class="hljs-comment"># &#125;</span><br>cookie=&#123; <span class="hljs-string">&#x27;session&#x27;</span>:<span class="hljs-string">&quot;eyJ0b2tlbiI6IjM4NjpNRVVDSUFhdTJQYVpmN1VmSlpQbzdCMm5rcUd5eVh1Qm9xTlFNOVFSZS9jMVM1cXdBaUVBdCs1ZVJWVTJOK2tORS9tcEY0Y2doWlV4YVVlLzRZL29sZ2MwV2U1WFFTaz0ifQ.ZT8Zhg.nu6aFcogpETdaJyp1BHVoDEFZ34&quot;</span>&#125;<br>s=requests.session()<br>listf=[]<br>listd=[]<br>r=s.post(url+<span class="hljs-string">&#x27;api/getMessages&#x27;</span>,cookies=cookie)<br>mess=json.loads(r.text)<br>result=mess[<span class="hljs-string">&#x27;messages&#x27;</span>]<br><span class="hljs-built_in">print</span>(result,<span class="hljs-built_in">len</span>(result))<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1000</span>):<br>    surr=result[i][<span class="hljs-string">&#x27;text&#x27;</span>]<br>    <span class="hljs-keyword">if</span>(re.<span class="hljs-keyword">match</span>(<span class="hljs-string">&quot;.*hack\[\.*&quot;</span>,surr)):<br>        listd.append(result[i][<span class="hljs-string">&#x27;delay&#x27;</span>])<br>        listf.append(&#123;<span class="hljs-string">&#x27;id&#x27;</span>:i&#125;)<br><span class="hljs-built_in">print</span>(listf)<br>j=<span class="hljs-number">0</span><br>listd.append(listd[<span class="hljs-built_in">len</span>(listf)-<span class="hljs-number">1</span>]+<span class="hljs-number">0.1</span>)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> listf:<br>    datas=json.dumps(i)<br>    a=s.post(url+<span class="hljs-string">&#x27;api/deleteMessage&#x27;</span>,cookies=cookie,data=datas,headers=header)<br>    <span class="hljs-keyword">if</span> j&lt;<span class="hljs-number">115</span>:<br>        time.sleep((listd[j+<span class="hljs-number">1</span>]-listd[j])/<span class="hljs-number">1.1</span>)<br>    <span class="hljs-keyword">elif</span> <span class="hljs-number">115</span>&lt;=j&lt;<span class="hljs-number">210</span>:<br>        time.sleep((listd[j+<span class="hljs-number">1</span>]-listd[j])/<span class="hljs-number">1.5</span>)<br>    <span class="hljs-keyword">else</span>:<br>        time.sleep((listd[j+<span class="hljs-number">1</span>]-listd[j])/<span class="hljs-number">1.2</span>)<br>    j=j+<span class="hljs-number">1</span><br>    <span class="hljs-built_in">print</span>(a.text,j)<br>r2=s.post(url+<span class="hljs-string">&#x27;api/getflag&#x27;</span>,cookies=cookie)<br><span class="hljs-built_in">print</span>(r2.text)<br>s.close()<br></code></pre></td></tr></table></figure>
+
+<p>要注意用delete的时候一定得等消息delay了之后再delete，不然会回显“检测到时空穿越”，我就被这个折磨了很久</p>
+<p>好在getMessage的信息都给足了，不然我还真卡在这了</p>
+<h3 id="8-虫"><a href="#8-虫" class="headerlink" title="8.虫"></a>8.虫</h3><p>这题还真挺有意思的，下载附件是wav格式，作为misc苦手，我又以为是xx隐写，搜了半天无果</p>
+<p>回到题目，说是<strong>无线信道传输图片</strong>，然而，bing和google都没能第一时间搜出有用的信息，我在浏览苦海中寻觅了不少时间，才偶然发现一位佬的博客在打以前的某CTF的题解里提到了这种方式</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://md.byr.moe/s/Bk6tsb2O8">https://md.byr.moe/s/Bk6tsb2O8</a></p>
+</blockquote>
+<p>正是这位佬，照着他的方法，下载一个虚拟声卡和RX-SSTV就可以通过这个音频转化成图片力，图片还怪好看的</p>
+<p>###9.JSON ⊂ YAML?</p>
+<p>嘿嘿，这题根本没懂，还是连蒙带猜才做出来的，还是只能说打hg的时候的运气实在太好了</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs css">flag1-payload:&#123;&quot;<span class="hljs-selector-tag">a</span>&quot;:<span class="hljs-string">&quot;NaN&quot;</span>&#125;<br>flag2-payload:&#123;&quot;<span class="hljs-selector-tag">a</span>&quot;:<span class="hljs-string">&quot;123&quot;</span>,<span class="hljs-string">&quot;a&quot;</span>:<span class="hljs-string">&quot;222&quot;</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>第一个Python解析出来的YAML111是nan，JSON是NaN，黑人问号（？</p>
+<p>第二个我是尝试千百次才得到，什么超长字符串，转义字符试了，统统不好使，最后发现YAML1.2不能重复键值</p>
+<p>可能运气也是实力的一部分吧</p>
+<p>不过花在这题上的时间也是挺久的，（指疯狂拷打GPT</p>
+<h3 id="10-Git-Git"><a href="#10-Git-Git" class="headerlink" title="10.Git? Git!"></a>10.Git? Git!</h3><p>把附件Xftp传到我的小云服务器上，然后进行如下操作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs git">git init<br>git reflog<br>git diff id-1 id-2<br></code></pre></td></tr></table></figure>
+
+<p>第一步初始化仓库</p>
+<p>第二步查看历史记录，可能有人会好奇历史记录是在哪里保存的</p>
+<p>实际上每次操作都会记录为某个hash值存在.git中的某个文件，通过git可以重新解析</p>
+<p>第三步拿reflog回显的文件头进行diff比较，看哪个不顺眼就是哪个</p>
+<p>千万别git log，buffer会炸的（亲身经历</p>
+<h3 id="11-HTTP集邮册（2-3）"><a href="#11-HTTP集邮册（2-3）" class="headerlink" title="11.HTTP集邮册（2&#x2F;3）"></a>11.HTTP集邮册（2&#x2F;3）</h3><p>这题把我的弱点展现的淋漓尽致，我也就堪堪找到5个状态码，确实我太废物了</p>
+<p>200：正常发送</p>
+<p>400：HEADERS的格式错误</p>
+<p>404：GET访问不存在的页面</p>
+<p>405：POST, HEAD, PATCH, DELETE…</p>
+<p>505：将HTTP1.1改成HTTP2.1（？</p>
+<p>空状态码：只留下GET &#x2F;</p>
+<p>寄了，还是看看佬的题解⑧家人们</p>
+<p>###12.Docker for Everyone</p>
+<p>这题确实有意思，经典不会就开搜，而我确实是这么做的</p>
+<p>发现是Docker的用户组提权</p>
+<p>但是注意一点，usermod好像被出题人删了，用不了，所以可以参照以下博客</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hellobao/articles/17262230.html">https://www.cnblogs.com/hellobao/articles/17262230.html</a></p>
+</blockquote>
+<p>直接可以读flag，也不用像他的博客一样写入root用户</p>
+<h3 id="13-惜字如金2-0"><a href="#13-惜字如金2-0" class="headerlink" title="13.惜字如金2.0"></a>13.惜字如金2.0</h3><p>靠猜（拼运气</p>
+<p>虽然你可能不是很理解什么是第一原则和第二原则，但是你知道flag的格式是flag{.*}</p>
+<p>所以开头是flag{，最后一个字符是}，然后理解代码就不难了</p>
+<p>最后给出补齐之后的py文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_cod_dict</span>():<br>    <span class="hljs-comment"># prepar th cod dict</span><br>    cod_dict = []<br>    cod_dict += [<span class="hljs-string">&#x27;nymeh1niwemflcir&#125;echaete&#x27;</span>]<br>    cod_dict += [<span class="hljs-string">&#x27;a3g7&#125;kidgojernoetlsup?he&#x27;</span>]<br>    cod_dict += [<span class="hljs-string">&#x27;ulww!f5soadrhwnrsnstnoeq&#x27;</span>]<br>    cod_dict += [<span class="hljs-string">&#x27;ctt&#123;l-findiehaai&#123;oveatas&#x27;</span>]<br>    cod_dict += [<span class="hljs-string">&#x27;ty9kxborszstgguyd?!blm-p&#x27;</span>]<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>.join(cod_dict)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">decrypt_data</span>(<span class="hljs-params">input_codes</span>):<br>    <span class="hljs-comment"># retriev th decrypted data</span><br>    cod_dict = get_cod_dict()<br>    output_chars = [cod_dict[c] <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> input_codes]<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>.join(output_chars)<br><br>cod_dict = []<br>cod_dict += [<span class="hljs-string">&#x27;nymeh1niwemflcir&#125;echaet1&#x27;</span>]<br>cod_dict += [<span class="hljs-string">&#x27;a3g7&#125;kidgojernoetlsup?h1&#x27;</span>]<br>cod_dict += [<span class="hljs-string">&#x27;ulw!f5soadrhwnrsnstnoeq1&#x27;</span>]<br>cod_dict += [<span class="hljs-string">&#x27;ct&#123;l-findiehaai&#123;oveatas1&#x27;</span>]<br>cod_dict += [<span class="hljs-string">&#x27;ty9kxborszstguyd?!blm-p1&#x27;</span>]<br><span class="hljs-built_in">print</span>(cod_dict)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">set</span>(<span class="hljs-built_in">len</span>(s) <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> cod_dict))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;&#x27;</span>.join(cod_dict))<br>flag = decrypt_data([<span class="hljs-number">53</span>, <span class="hljs-number">41</span>, <span class="hljs-number">85</span>, <span class="hljs-number">109</span>, <span class="hljs-number">75</span>, <span class="hljs-number">1</span>, <span class="hljs-number">33</span>, <span class="hljs-number">48</span>, <span class="hljs-number">77</span>, <span class="hljs-number">90</span>,<br>                         <span class="hljs-number">17</span>, <span class="hljs-number">118</span>, <span class="hljs-number">36</span>, <span class="hljs-number">25</span>, <span class="hljs-number">13</span>, <span class="hljs-number">89</span>, <span class="hljs-number">90</span>, <span class="hljs-number">3</span>, <span class="hljs-number">63</span>, <span class="hljs-number">25</span>,<br>                         <span class="hljs-number">31</span>, <span class="hljs-number">77</span>, <span class="hljs-number">27</span>, <span class="hljs-number">60</span>, <span class="hljs-number">3</span>, <span class="hljs-number">118</span>, <span class="hljs-number">24</span>, <span class="hljs-number">62</span>, <span class="hljs-number">54</span>, <span class="hljs-number">61</span>,<br>                         <span class="hljs-number">25</span>, <span class="hljs-number">63</span>, <span class="hljs-number">77</span>, <span class="hljs-number">36</span>, <span class="hljs-number">5</span>, <span class="hljs-number">32</span>, <span class="hljs-number">60</span>, <span class="hljs-number">67</span>, <span class="hljs-number">113</span>, <span class="hljs-number">28</span>])<br><span class="hljs-built_in">print</span>(flag)<br></code></pre></td></tr></table></figure>
+
+<h3 id="14-高频率星球"><a href="#14-高频率星球" class="headerlink" title="14.高频率星球"></a>14.高频率星球</h3><p>我再也不装CentOS（擦擦擦擦擦擦</p>
+<p>下载附件是.rec文件，得用题目中所说的asciinema来play</p>
+<p>Windows用不了，于是乎我高兴地打开了我的华为云HECS，搭配的是炒鸡利害的CentOS内核</p>
+<p>yum install asciinema ！！！ 然后asciinema play ~！！！</p>
+<p>嗯？报错？（黑人问号？</p>
+<p>Python版本低于3.9无法使用asciinema</p>
+<p>沃日，赶紧查看python版本(python -V)，一查3.6</p>
+<p>我晕，CentOS的yum都是靠python解析的，况且我都装了3、4个Python版本，连管理都不知道在哪管理</p>
+<p>真的是气的想吐血，又只能搬出陈年的VMware，在我老旧的Kali虚拟机上进行操蛋的操作</p>
+<p>先asciinema play ~，play一遍之后发现提示nodejs flag.js就能拿到flag</p>
+<p>然后就asciinema cat ~ &gt;output.js，结果回显一堆乱码（全是\r、^M)这种Windows特有的操蛋玩意</p>
+<p>我当时已经身心俱疲，不想研究什么vim快速删除，只想重复傻瓜式的机械操作，leafpad一个个手删</p>
+<p>也就耗时30min+，不是很久嘛（（（</p>
+<p>最后nodejs flag.js就能拿到flag了，庆幸我删的都是对的</p>
+<h3 id="15-小型大预言模型星球（2-4）"><a href="#15-小型大预言模型星球（2-4）" class="headerlink" title="15.小型大预言模型星球（2&#x2F;4）"></a>15.小型大预言模型星球（2&#x2F;4）</h3><p>这个AI，好玩好玩（（</p>
+<p>试探性聊了几句，发现他的Response有种精神污染，牛头不对马嘴</p>
+<p>实际上我知道他类似于是一个编故事的AI，根据你的开头接着编故事，所以只需要想象语境就能做很大部分的题了</p>
+<p>比如第一个You are smart</p>
+<p>这个我甚至有多解，随便给一个解吧</p>
+<p>直接输入Am I smart?，然后就能拿到第一个flag了</p>
+<p>第二个accepted</p>
+<p>输入Apology，不多不少，正好7个字，这是个非常nb的想法</p>
+<p>总之对这种正常词汇，头脑风暴想语境就可以了</p>
+<p>至于后面两个非正常词汇，肯定得用一些漏洞⑧</p>
+<h3 id="16-流式星球"><a href="#16-流式星球" class="headerlink" title="16.流式星球"></a>16.流式星球</h3><p>一开始我搞错了，把下载附件的代码以为是把bin convert to mp4了，后来甩给GPT才看懂+结合题干</p>
+<p>原来是在告诉我怎么把mp4 convert to bin，所以我故技重施，让GPT告诉我怎么复原</p>
+<p>GPT给了我如下十分折磨人的代码（后面细锁</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> cv2<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">create_video_from_bin</span>(<span class="hljs-params">input_bin, output_mp4, frame_width, frame_height, frame_rate</span>):<br>    <span class="hljs-comment"># 读取二进制文件</span><br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(input_bin, <span class="hljs-string">&quot;rb&quot;</span>) <span class="hljs-keyword">as</span> file:<br>        binary_data = file.read()<br><br>    <span class="hljs-comment"># 还原视频帧数据</span><br>    frame_size = frame_width * frame_height * <span class="hljs-number">3</span><br>    video_frames = np.frombuffer(binary_data, dtype=np.uint8)<br>    video_frames = video_frames[:<span class="hljs-built_in">len</span>(video_frames) - (<span class="hljs-built_in">len</span>(video_frames) % frame_size)]  <span class="hljs-comment"># 确保数据长度是帧大小的倍数</span><br>    video_frames = video_frames.reshape(-<span class="hljs-number">1</span>, frame_height, frame_width, <span class="hljs-number">3</span>)<br><br>    <span class="hljs-comment"># 创建视频编写器</span><br>    fourcc = cv2.VideoWriter_fourcc(*<span class="hljs-string">&#x27;mp4v&#x27;</span>)  <span class="hljs-comment"># 使用MP4编码</span><br>    out = cv2.VideoWriter(output_mp4, fourcc, frame_rate, (frame_width, frame_height))<br><br>    <span class="hljs-comment"># 将帧写入视频文件</span><br>    <span class="hljs-keyword">for</span> frame <span class="hljs-keyword">in</span> video_frames:<br>        out.write(frame)<br><br>    out.release()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Video saved to <span class="hljs-subst">&#123;output_mp4&#125;</span>&quot;</span>)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    input_bin = <span class="hljs-string">&quot;video.bin&quot;</span><br>    output_mp4 = <span class="hljs-string">&quot;video.mp4&quot;</span><br>    frame_width = <span class="hljs-number">640</span>  <span class="hljs-comment"># 帧宽度（根据你的数据更改）</span><br>    frame_height = <span class="hljs-number">480</span>  <span class="hljs-comment"># 帧高度（根据你的数据更改）</span><br>    frame_rate = <span class="hljs-number">30</span>  <span class="hljs-comment"># 帧速率（根据需要更改）</span><br><br>    create_video_from_bin(input_bin, output_mp4, frame_width, frame_height, frame_rate)<br></code></pre></td></tr></table></figure>
+
+<p>为什么说它折磨人，是因为这段代码复原的MP4文件是一坨⑩，有重影有莫名其妙的诡异的移动，还有几乎糊到</p>
+<p>看不清的flag，只能说还好是出题人良心大发，flag里面的字母没做替换，不然我是真的做不出来的</p>
+<p>我看official题解是用GPT4帮忙写的，羡慕富哥了，我的GPT3.5就只能写出此等低劣代码（恼</p>
+<p>我一直以为是帧宽度和帧高度的原因会导致我根本看不清，结果在我N次尝试之后，发现还得是GPT给我初始</p>
+<p>的帧宽和帧高相比之下最清晰，所以我就拿着那个糊到不能再糊的MP4，一帧一帧的仔细看，从缝里扣出flag</p>
+<p>最后我也提交了N次，N-1次都错了，是因为我的flag{ 后的第一个字母i弄成了大写I（奈何我看不清楚，最后我还是灵光一闪，把I改成了i，flag对了，说实话当时我真的很感动，也只能说幸运女神又眷顾了我</p>
+<h3 id="Last-Summary"><a href="#Last-Summary" class="headerlink" title="Last:Summary"></a>Last:Summary</h3><p>题目做到这里就没再做出别的了，还是自愧不如把，但是~~~</p>
+<p><strong>Hackergame好玩，爱玩，多来点</strong></p>
+<p>今年我已经是大二了，明年的hg我应该是大三了，到那时一定还会再来捧场</p>
+<p>但是应该就不会和小东西们冲榜了^_^</p>
+<p><strong>感谢科大</strong></p>
+<p><strong>感谢西电XDSEC</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CTF/" class="print-no-link">#CTF</a>
+      
+        <a href="/tags/writeup/" class="print-no-link">#writeup</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Hackergame2023-Writeup</div>
+      <div>http://example.com/2023/11/03/Hackergame2023-Writeup/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jednersaous</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年11月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/11/13/PKU%20GEEKGAME/" title="PKU GEEKGAME Writeup">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">PKU GEEKGAME Writeup</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

