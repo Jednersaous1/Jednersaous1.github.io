@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/java_des.png">
 <meta property="article:published_time" content="2025-04-06T08:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-08T06:54:08.369Z">
+<meta property="article:modified_time" content="2025-04-11T09:41:32.563Z">
 <meta property="article:author" content="Jednersaous">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="反序列化">
@@ -215,7 +215,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          764 字
+          780 字
         
       </span>
     
@@ -268,7 +268,14 @@
             
               <div class="markdown-body">
                 
-                <h1 id="CC3"><a href="#CC3" class="headerlink" title="CC3"></a>CC3</h1><p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/1vxyz/p/17458691.html">https://www.cnblogs.com/1vxyz/p/17458691.html</a><br>环境：<code>jdk8u65 &amp;&amp; Commons-collections 3.2.1</code><br>CC1和CC6都是利用invoke反射调用Runtime.getRuntime.exec()来执行命令<br>而CC3则是利用类加载机制 动态加载恶意类自动执行恶意类的代码<br>CC3 based on TemplatesImpl类加载 所以我们得先找TemplatesImpl的链子</p>
+                <style>
+  /* 设置整个页面的字体 */
+  html, body, .markdown-body {
+    font-weight: 600;
+  }
+</style>
+
+<h1 id="CC3"><a href="#CC3" class="headerlink" title="CC3"></a>CC3</h1><p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/1vxyz/p/17458691.html">https://www.cnblogs.com/1vxyz/p/17458691.html</a><br>环境：<code>jdk8u65 &amp;&amp; Commons-collections 3.2.1</code><br>CC1和CC6都是利用invoke反射调用Runtime.getRuntime.exec()来执行命令<br>而CC3则是利用类加载机制 动态加载恶意类自动执行恶意类的代码<br>CC3 based on TemplatesImpl类加载 所以我们得先找TemplatesImpl的链子</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">InstantiateTransformer.transform -&gt;<br>    TrAXFilter::TrAXFilter() -&gt;<br>        TemplatesImpl::newTransformer() -&gt;<br>            TemplatesImpl::getTransletInstance() -&gt;<br>                TemplatesImpl::defineTransletClasses() -&gt;<br>                    TransletClassLoader::defineClass()<br></code></pre></td></tr></table></figure>
 <p>我们挑要条件的讲讲<br><img src="/img/cc3/17439240908673.png" srcset="/img/loading.gif" lazyload><br>为了满足条件 _name不能为空 _class要为空 这样就能进到defineTransletClasses()<br><img src="/img/cc3/17439243272931.png" srcset="/img/loading.gif" lazyload><br>为了满足条件 <code>_bytecodes</code>不能为空 而且<code>_bytecodes</code>正是我们要加载恶意类代码的地方<br>这里需要的是byte[][] 但是传入defineClass的是一个一维数组 我们可以按照如下方法赋值</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">byte</span>[] evil = Files.readAllBytes(Paths.get(<span class="hljs-string">&quot;evil.class&quot;</span>));  <br><span class="hljs-type">byte</span>[][] codes = &#123;evil&#125;;<br></code></pre></td></tr></table></figure>

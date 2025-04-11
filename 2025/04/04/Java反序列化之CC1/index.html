@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/java_des.png">
 <meta property="article:published_time" content="2025-04-03T21:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-08T06:44:19.300Z">
+<meta property="article:modified_time" content="2025-04-11T09:41:39.354Z">
 <meta property="article:author" content="Jednersaous">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="反序列化">
@@ -215,7 +215,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k 字
+          1.2k 字
         
       </span>
     
@@ -268,7 +268,14 @@
             
               <div class="markdown-body">
                 
-                <h1 id="CC1"><a href="#CC1" class="headerlink" title="CC1"></a>CC1</h1><p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/1vxyz/p/17284838.html">https://www.cnblogs.com/1vxyz/p/17284838.html</a><br>环境：<code>jdk8u65 &amp;&amp; commons-collections 3.2.1</code><br>CC1在jdk8u71后就修复了(修了AnnotationInvocationHandler::readObject())<br>sink点在 InvokerTransformer::transform()</p>
+                <style>
+  /* 设置整个页面的字体 */
+  html, body, .markdown-body {
+    font-weight: 600;
+  }
+</style>
+
+<h1 id="CC1"><a href="#CC1" class="headerlink" title="CC1"></a>CC1</h1><p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/1vxyz/p/17284838.html">https://www.cnblogs.com/1vxyz/p/17284838.html</a><br>环境：<code>jdk8u65 &amp;&amp; commons-collections 3.2.1</code><br>CC1在jdk8u71后就修复了(修了AnnotationInvocationHandler::readObject())<br>sink点在 InvokerTransformer::transform()</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs shell">Gadget chain:<br>    ObjectInputStream.readObject() -&gt;<br>        AnnotationInvocationHandler.readObject() -&gt;<br>            MapEntry.setValue() -&gt;<br>                TransformedMap.checkSetValue -&gt;<br>                    ChainedTransformer.transform() -&gt;<br>                        ConstantTransformer.transform() -&gt;<br>                        InvokerTransformer.transform() -&gt;<br>                            Method.invoke() -&gt;<br>                                Class.getMethod() -&gt;<br>                        InvokerTransformer.transform() -&gt;<br>                            Method.invoke() -&gt;<br>                                Runtime.getRuntime() -&gt;<br>                        InvokerTransformer.transform() -&gt;<br>                            Method.invoke() -&gt;<br>                                Runtime.exec()<br></code></pre></td></tr></table></figure>
 <p>Runtime对象不能序列化(没有继承Serializable) 我们需要一直用InvokerTransformer::transform()来反射获取<code>Runtime.getRuntime().exec(&quot;cmd&quot;)</code><br>这里详解一下InvokerTransformer::transform()</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> Object <span class="hljs-title function_">transform</span><span class="hljs-params">(Object input)</span> &#123;<br>    <span class="hljs-keyword">if</span> (input == <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-type">Class</span> <span class="hljs-variable">cls</span> <span class="hljs-operator">=</span> input.getClass();<br>        <span class="hljs-type">Method</span> <span class="hljs-variable">method</span> <span class="hljs-operator">=</span> cls.getMethod(iMethodName, iParamTypes);<br>        <span class="hljs-keyword">return</span> method.invoke(input, iArgs);<br>                <br>    &#125; <span class="hljs-keyword">catch</span> (NoSuchMethodException ex) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FunctorException</span>(<span class="hljs-string">&quot;InvokerTransformer: The method &#x27;&quot;</span> + iMethodName + <span class="hljs-string">&quot;&#x27; on &#x27;&quot;</span> + input.getClass() + <span class="hljs-string">&quot;&#x27; does not exist&quot;</span>);<br>    &#125; <span class="hljs-keyword">catch</span> (IllegalAccessException ex) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FunctorException</span>(<span class="hljs-string">&quot;InvokerTransformer: The method &#x27;&quot;</span> + iMethodName + <span class="hljs-string">&quot;&#x27; on &#x27;&quot;</span> + input.getClass() + <span class="hljs-string">&quot;&#x27; cannot be accessed&quot;</span>);<br>    &#125; <span class="hljs-keyword">catch</span> (InvocationTargetException ex) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FunctorException</span>(<span class="hljs-string">&quot;InvokerTransformer: The method &#x27;&quot;</span> + iMethodName + <span class="hljs-string">&quot;&#x27; on &#x27;&quot;</span> + input.getClass() + <span class="hljs-string">&quot;&#x27; threw an exception&quot;</span>, ex);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>

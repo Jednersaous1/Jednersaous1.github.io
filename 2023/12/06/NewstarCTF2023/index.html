@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/writeup.png">
 <meta property="article:published_time" content="2023-12-06T02:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-01T07:17:24.873Z">
+<meta property="article:modified_time" content="2025-04-11T09:41:05.345Z">
 <meta property="article:author" content="Jednersaous">
 <meta property="article:tag" content="CTF">
 <meta property="article:tag" content="writeup">
@@ -226,7 +226,7 @@
         
         
         
-          66 分钟
+          67 分钟
         
       </span>
     
@@ -268,7 +268,14 @@
             
               <div class="markdown-body">
                 
-                <h1 id="NewstarCTF2023"><a href="#NewstarCTF2023" class="headerlink" title="NewstarCTF2023"></a>NewstarCTF2023</h1><p>——Jednersaous</p>
+                <style>
+  /* 设置整个页面的字体 */
+  html, body, .markdown-body {
+    font-weight: 600;
+  }
+</style>
+
+<h1 id="NewstarCTF2023"><a href="#NewstarCTF2023" class="headerlink" title="NewstarCTF2023"></a>NewstarCTF2023</h1><p>——Jednersaous</p>
 <h2 id="WEB-week3"><a href="#WEB-week3" class="headerlink" title="WEB-week3"></a>WEB-week3</h2><h3 id="include-pear"><a href="#include-pear" class="headerlink" title="include pear"></a>include pear</h3><p>这道题是我没见过的，本来一开始还没意识到题那个梨的emoji是什么意思，后来才恍然大悟</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>    <span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);<br>    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;file&#x27;</span>])) &#123;<br>        <span class="hljs-variable">$file</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;file&#x27;</span>];<br>        <br>        <span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&#x27;/flag|log|session|filter|input|data/i&#x27;</span>, <span class="hljs-variable">$file</span>)) &#123;<br>            <span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;hacker!&#x27;</span>);<br>        &#125;<br>        <br>        <span class="hljs-keyword">include</span>(<span class="hljs-variable">$file</span>.<span class="hljs-string">&quot;.php&quot;</span>);<br>        <span class="hljs-comment"># Something in phpinfo.php!</span><br>    &#125;<br>    <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br>    &#125;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
 
