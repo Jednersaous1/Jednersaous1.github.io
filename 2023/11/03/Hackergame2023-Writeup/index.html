@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/page_icon/writeup.png">
 <meta property="article:published_time" content="2023-11-03T02:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-15T08:51:18.495Z">
+<meta property="article:modified_time" content="2025-04-17T07:35:30.834Z">
 <meta property="article:author" content="Jednersaous">
 <meta property="article:tag" content="CTF">
 <meta property="article:tag" content="writeup">
@@ -335,8 +335,7 @@
 <p>发现是POST请求，发送的是自己下的棋的坐标</p>
 <p>那我能不能下在AI已经下过的棋上呢，一试发现可以</p>
 <p>所以可以先手动下两个，然后最后一个抓包之后修改坐标成被AI堵住的那个就行了</p>
-<p>###6.奶奶的睡前 flag 故事</p>
-<p>题目给的暗示真的挺多的，没想到这题跟PNG什么正常的图片隐写啊没什么关系，挺好的，毕竟我是misc新人</p>
+<h3 id="6-奶奶的睡前-flag-故事"><a href="#6-奶奶的睡前-flag-故事" class="headerlink" title="6.奶奶的睡前 flag 故事"></a>6.奶奶的睡前 flag 故事</h3><p>题目给的暗示真的挺多的，没想到这题跟PNG什么正常的图片隐写啊没什么关系，挺好的，毕竟我是misc新人</p>
 <p>第一点<strong>谷歌的亲儿子</strong>指的是google自己研发的手机Pixel系列</p>
 <p>好，那懂了啊，直接搜Pixel截图漏洞</p>
 <blockquote>
@@ -356,8 +355,7 @@
 <p><a target="_blank" rel="noopener" href="https://md.byr.moe/s/Bk6tsb2O8">https://md.byr.moe/s/Bk6tsb2O8</a></p>
 </blockquote>
 <p>正是这位佬，照着他的方法，下载一个虚拟声卡和RX-SSTV就可以通过这个音频转化成图片力，图片还怪好看的</p>
-<p>###9.JSON ⊂ YAML?</p>
-<p>嘿嘿，这题根本没懂，还是连蒙带猜才做出来的，还是只能说打hg的时候的运气实在太好了</p>
+<h3 id="9-JSON-⊂-YAML"><a href="#9-JSON-⊂-YAML" class="headerlink" title="9.JSON ⊂ YAML?"></a>9.JSON ⊂ YAML?</h3><p>嘿嘿，这题根本没懂，还是连蒙带猜才做出来的，还是只能说打hg的时候的运气实在太好了</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs css">flag1-payload:&#123;&quot;<span class="hljs-selector-tag">a</span>&quot;:<span class="hljs-string">&quot;NaN&quot;</span>&#125;<br>flag2-payload:&#123;&quot;<span class="hljs-selector-tag">a</span>&quot;:<span class="hljs-string">&quot;123&quot;</span>,<span class="hljs-string">&quot;a&quot;</span>:<span class="hljs-string">&quot;222&quot;</span>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>第一个Python解析出来的YAML111是nan，JSON是NaN，黑人问号（？</p>
@@ -380,8 +378,7 @@
 <p>505：将HTTP1.1改成HTTP2.1（？</p>
 <p>空状态码：只留下GET &#x2F;</p>
 <p>寄了，还是看看佬的题解⑧家人们</p>
-<p>###12.Docker for Everyone</p>
-<p>这题确实有意思，经典不会就开搜，而我确实是这么做的</p>
+<h3 id="12-Docker-for-Everyone"><a href="#12-Docker-for-Everyone" class="headerlink" title="12.Docker for Everyone"></a>12.Docker for Everyone</h3><p>这题确实有意思，经典不会就开搜，而我确实是这么做的</p>
 <p>发现是Docker的用户组提权</p>
 <p>但是注意一点，usermod好像被出题人删了，用不了，所以可以参照以下博客</p>
 <blockquote>
