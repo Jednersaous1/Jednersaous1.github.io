@@ -4,6 +4,29 @@
   
   
   <entry>
+    <title>CopyManga_Jrawler发布</title>
+    <link href="/2025/05/15/CopyManga_Jrawler/"/>
+    <url>/2025/05/15/CopyManga_Jrawler/</url>
+    
+    <content type="html"><![CDATA[<style>  /* 设置整个页面的字体 */  html, body, .markdown-body {    font-weight: 600;  }</style><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>起因是想做一个漫画图片 + 内容描述生成 + 内容解说的一个短视频流水生产线</p><p>所以第一步是拿漫画图片 由于我薄弱的版权意识 所以打算从拷贝漫画那直接拿</p><p>经过一通请求分析 我发现拷贝漫画的图片是懒加载的 这个倒是小问题 问题是懒加载的源头在哪</p><p>其核心在<code>comic_content_pass20220707.js</code>这个js文件 但显然要么是混淆过 要么是打包过</p><p>身为逆向苦手的我基本看不懂 但我找到了一个大佬分析的专栏<a href="https://www.bilibili.com/opus/982258767218343987">Here</a></p><p>有兴趣的可以看看</p><p>所以退而求其次 写个模拟操作爬虫 顺便锻炼下写爬虫</p><p>因此<code>CopyManga_Jrawler</code>诞生了 大概花了一周 完善了基本的功能 但是感觉还是有蛮多不足的</p><p><a href="https://github.com/Jednersaous1/CopyManga_Jrawler">CopyManga_Jrawler项目地址</a></p><p>欢迎提pr 有时间我会看的（</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Manga</tag>
+      
+      <tag>Crawler</tag>
+      
+      <tag>Tools</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>PolarD&amp;N Java专题</title>
     <link href="/2025/04/23/JAVA_Problem/"/>
     <url>/2025/04/23/JAVA_Problem/</url>
